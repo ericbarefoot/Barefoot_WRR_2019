@@ -1,6 +1,6 @@
 #	calculating percentiles of flow. Based on data from Bolin Creek.
 #	Eric Barefoot
-#	May 2016
+# July 2018
 
 #	load functions
 source(here::here('analysis','functions','percentiles.r'))

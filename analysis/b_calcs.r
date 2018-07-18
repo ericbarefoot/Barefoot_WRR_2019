@@ -1,6 +1,6 @@
 ##	calculating b (as in w = aQ^b) and the r^2 for each point in the network
 ##	Eric Barefoot
-##	Mar 2016
+# July 2018
 
 require(dplyr)
 

@@ -1,6 +1,6 @@
 # Examining the relative contributions of new segments to widening points in growing stream surface area.
 # Eric Barefoot
-# March 2016
+# July 2018
 
 # note from later: appears that this script doesn't actually stand alone. must have to call it in interactive mode during something else.
 
@@ -17,23 +17,23 @@ which_effect = function(dat = tab$fdata, n1, n2) {
 
 	widths = data.frame(ev1,ev2)
 
-	# which ones are NA in either? 
+	# which ones are NA in either?
 
 	na1 = which(is.na(ev1))
 	na2 = which(is.na(ev2))
 
 	na = unique(c(na1,na2))
-	
+
 	if (length(na) > 0) {
 		# now exclude them from both
 
 		ev1 = ev1[-na]
 		ev2 = ev2[-na]
 	} else {
-		
+
 	}
 
-	
+
 
 	# which ones are zeros or not for event 1 and 2?
 
@@ -62,7 +62,7 @@ which_effect = function(dat = tab$fdata, n1, n2) {
 
 	evf2fdelta = sum(ev2[evf2f] - ev1[evf2f]) * 0.01 * 5
 
-	# what is the total area difference between zero->full segments? 
+	# what is the total area difference between zero->full segments?
 
 	evz2fdelta = sum(ev2[evz2f] * 0.01) * 5
 
@@ -84,12 +84,12 @@ which_effect = function(dat = tab$fdata, n1, n2) {
 
 
 spline_curves = function(jkl, spar = 0.3) {
-	
+
 	my_spar = 0.3
 
 	brks = seq(0, max(c(jkl$ev1, jkl$ev2), na.rm = T) + 10, by = 10)
 
-	# event 1 
+	# event 1
 	hev1 = hist(jkl$ev1[jkl$ev1f], plot = F, breaks = brks)
 
 	sev1 = smooth.spline(c(0,hev1$mids), c(0,hev1$counts), spar = my_spar)
@@ -114,11 +114,11 @@ spline_curves = function(jkl, spar = 0.3) {
 	sf2f = spline(c(0,sf2f$x), c(0,sf2f$y), n = length(range))
 
 	# full to full delta
-	hf2fdelta = hev2$counts - hz2f$counts - hev1$counts 
+	hf2fdelta = hev2$counts - hz2f$counts - hev1$counts
 
 	# full to zero
 	hf2z = hist(jkl$ev1[jkl$evf2z], plot = F, breaks = brks)
-	
+
 	return(list(sev1 = sev1, sev2 = sev2, sz2f = sz2f, sf2f = sf2f))
 
 }
@@ -136,7 +136,7 @@ iMat = matrix(nrow = 13, ncol = 13)
 jMat = matrix(nrow = 13, ncol = 13)
 
 loop = order(areas)
-i = 1 
+i = 1
 for(ii in loop) {
 	j = 1
 	for(jj in loop) {
@@ -168,7 +168,7 @@ js = jMat[upper.tri(jMat)]
 
 # what is the relationship between the different effects, that is to say, which has the greater magnitude in any given situation? what kinds of patterns are there?
 
-#n1 = 6; n2 = 10 
+#n1 = 6; n2 = 10
 #
 #jkl = which_effect(tab$fdata, n1, n2)
 #
@@ -176,7 +176,7 @@ js = jMat[upper.tri(jMat)]
 #
 #brks = seq(0, 750, by = 10)
 #
-## event 1 
+## event 1
 #hev1 = hist(jkl$ev1[jkl$ev1f], plot = F, breaks = brks)
 #
 #sev1 = smooth.spline(c(0,hev1$mids), c(0,hev1$counts), spar = my_spar)
@@ -201,7 +201,7 @@ js = jMat[upper.tri(jMat)]
 #sf2f = spline(c(0,sf2f$x), c(0,sf2f$y), n = length(range))
 #
 ## full to full delta
-#hf2fdelta = hev2$counts - hz2f$counts - hev1$counts 
+#hf2fdelta = hev2$counts - hz2f$counts - hev1$counts
 #
 ## full to zero
 #hf2z = hist(jkl$ev1[jkl$evf2z], plot = F, breaks = brks)

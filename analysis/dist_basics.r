@@ -1,6 +1,6 @@
 # These are the calculations used for making any of the figures, namely calculating lognormal distributions etc.
 # Eric Barefoot
-# Nov 2015
+# July 2018
 
 # find the first data column and find the overall mean of all non-zero measurements
 col1 <- which(names(tab$fdata) == "w00")

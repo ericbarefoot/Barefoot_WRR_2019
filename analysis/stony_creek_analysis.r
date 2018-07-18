@@ -1,9 +1,12 @@
+#!/usr/bin/env Rscript
+
 # Master file for stony creek data analysis
 # Eric Barefoot
-# December 2017
+# July 2018
 
-##  TODO  ##
-#   make sure all scripts run as they are supposed to.
+# Call this script from the command line while in the directory as follows:
+#
+# OSX/Linux: "./stony_creek_analysis.r"
 
 ########################################################
 # import necessary libraries

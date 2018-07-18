@@ -1,6 +1,6 @@
 #	recalculating all the major statistics without survey one and compiling everything into one table. also tagging events as high or low depending on a dynamic threshold
 #	Eric Barefoot
-#	May 2016
+# July 2018
 
 # wd = getwd()
 #

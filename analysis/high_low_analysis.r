@@ -1,8 +1,6 @@
-# repeating many aspects of the stony creek analysis without survey #1 and separating things into high and low flows. 
+# repeating many aspects of the stony creek analysis without survey #1 and separating things into high and low flows.
 # Eric Barefoot
-# May 2016
-
-# rm(list = ls())
+# July 2018
 
 ########################################################
 
@@ -25,14 +23,14 @@ fd = file.path(ad, 'functions')
 hld = file.path(ad, 'high_low')
 
 load(file.path(dddo, 'tab_data.rda'))
-load(file.path(dddo, 'high_low_table.rda')) 
+load(file.path(dddo, 'high_low_table.rda'))
 
-# data outputs (in list called 'tab') - 
+# data outputs (in list called 'tab') -
 
 	# fdata - width surveys through time. Has unique flag ID codes (flag_id), upstream distance from the bottom of the watershed in meters (upstream_dist), channel order (order_chan), lat/lon coordinates in decimal degrees for each flag (easting, northing), elevation (m), stream order for each event (ord00, ord01, ...), and scaled width in cm at each flag for different surveys (w01,w02,w03, ...).
-  
+
 	# hydro - 5 min stage data for WSA gauge (date, stage), with associated discharge in L/s (Q), runoff normalized to drainage area (norm_R), and total runoff in mm/hr (R_mmhr)
-  
+
 	# event_means - mean discharge in L/s (mean_Q) and each survey date and event ID
 
 	# surveyQ - all the discharge and time data for each survey date and a label variable.
@@ -66,7 +64,7 @@ source(file.path(ad, 'percentile_calc.r'))
 
 source(file.path(hld, 'compile_data_hl.r'))
 
-## calculates relative area effects of widening and expansion in light of 
+## calculates relative area effects of widening and expansion in light of
 
 source(file.path(hld, 'effect_analysis_hl.r'))
 

@@ -1,6 +1,6 @@
 ##	Calculating the basic hydrological stats based on WS1 data
 ##	Eric Barefoot
-##	Feb 2017
+# July 2018
 
 ##	Total Runoff
 
