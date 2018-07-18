@@ -4,18 +4,17 @@
 #	Jun 2016
 
 # runs through each stream centerline, calculates the orthogonal
-# direction to the along stream direction at each vertex. 
-# shapefiles need with UTM coordinates and also joined 
+# direction to the along stream direction at each vertex.
+# shapefiles need with UTM coordinates and also joined
 # field data for this to work.
 
 # assume imported field data from master file for now
 
-wd = file.path(pd, 'figures','scripts')
-outd = file.path(pd, 'figures','outputs')
+outd = here('figures','outputs')
 
-source(file.path(pd,'analysis','dist_basics.r'))
-source(file.path(pd,'analysis','functions','boxaxes.r'))
-source(file.path(pd,'analysis','functions','disch_conv.r'))
+source(here('analysis','dist_basics.r'))
+source(here('analysis','functions','boxaxes.r'))
+source(here('analysis','functions','disch_conv.r'))
 
 figout = file.path(outd,'adn_maps.pdf')
 
@@ -41,7 +40,7 @@ grouper <- function(x){
 	split(x[nonNa], idx[nonNa])
 }
 
-##	function to take one vector from a dataframe, then spread it evenly to fit another dataframe, 
+##	function to take one vector from a dataframe, then spread it evenly to fit another dataframe,
 ##	without interpolating between values
 ## 	Eric Barefoot
 ##	Mar 2016
@@ -69,8 +68,8 @@ spread = function(dat, field, vdat, vfield, wfield, na2zero = T) {
 	return(ww)
 }
 
-#inDbfPaths = file.path(pd,'data', 'raw_data','gis_data','stony','shapefiles','stony_segments_pts.dbf')
-inDbfPaths = '/Users/ericfoot/Dropbox/research/headwater_stream_widths/data/raw_data/gis_data/GIS - sort out when have arcCatalogue/stony_segments/stony_segment_pts.dbf'
+inDbfPaths = here('data', 'raw_data', 'gis_data', 'stony_segment_pts.dbf')
+
 # import and process data:
 
 thetab = data.frame(read.dbf(inDbfPaths))
@@ -103,17 +102,17 @@ for (m in 2:length(colz)){
 
 	w = spread(thetab, 'Name', tab$fdata, 'flag_id', colz[m])
 	w = w * 0.01 * wMult # convert to meters
-	
+
 	zw = w == 0
-	
+
 	lx = x
 	ly = y
-	
+
 	lx[zw] = NA
 	ly[zw] = NA
-	
+
 	j = which(!duplicated(s))
-	
+
 	# add an NA between segments to plot centerline:
 	for (i in rev(1:length(j))) {
 		x = insertRow(x, NA, j[i])
@@ -125,19 +124,17 @@ for (m in 2:length(colz)){
 	plot(x, y, type = 'n', asp = 1, axes = F, ann = F)
 	lines(lx, ly, col='darkblue', lwd = 2)
 	text(x = 673148.8, y = 3989969, labels = paste(m-1), col = pal[m], cex = 4)
-	
+
 	text(x = 673650, y = 3989670, labels = paste(round(mQs[m], digits = 2), ' mm/hr'), col = pal[m], cex = 2.8)
-  
+
 	bx = c(673207.8,  673343.8, 3989601.6, 3989719.4)
-	
+
 	if (m == length(colz)) {
 		rect(bx[1], bx[3], bx[2], bx[4], border = 'red3', lwd = 2)
 		segments(673700,3989670,673700,3989720,lwd = 2)
 #		text(x = 673700, y = 3989740, labels = 'N', cex = 2)
 	}
-	
+
 }
-	
+
   dev.off()
-
-

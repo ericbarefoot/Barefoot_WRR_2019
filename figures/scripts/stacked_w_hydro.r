@@ -2,12 +2,10 @@
 #	Eric Barefoot
 #	Mar 2016
 
-outd = file.path(pd, 'figures','outputs')
+source(here('analysis','dist_basics.r'))
+source(here('analysis', 'functions', 'disch_conv.r'))
 
-source(file.path(pd,'analysis','dist_basics.r'))
-source(file.path(pd,'analysis', 'functions', 'disch_conv.r'))
-
-figout = file.path(outd,'stacked_w_hydro.pdf')
+figout = here('figures', 'outputs', 'stacked_w_hydro.pdf')
 
 pdf(file = figout, width = 14, height = 10, useDingbats = F)
 
@@ -89,7 +87,7 @@ poss = c(4,1,2,2,4,1,1,1,1,2,4,3,4)
 text(Qtime, QQ, labels = jj, pos = poss, col = pal[jj], cex = 1.5)
 
 # for(j in 1:length(tab$event_means$survey_date)) {
-# 
+#
 # }
 
 axis(1, lwd = 0, lwd.ticks = 1, at = hydro_ticks_pos, labels = c('Nov','Dec','Jan','Feb','Mar'))

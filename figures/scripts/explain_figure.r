@@ -2,16 +2,11 @@
 ## Eric Barefoot
 ## Mar 2016
 
-wd = file.path(pd,'figures')
-setwd(wd)
-outd = file.path(pd, 'figures','outputs')
-figout = file.path(outd,'explain_fig.pdf')
-source(file.path(pd,'analysis','dist_basics.r'))
-source(file.path(pd,'analysis','functions','boxaxes.r'))
-source(file.path(pd,'analysis','functions','disch_conv.r'))
-source(file.path(pd,'analysis','effect_analysis.r'))
-
-
+figout = here('figures','outputs','explain_fig.pdf')
+source(here('analysis','dist_basics.r'))
+source(here('analysis','functions','boxaxes.r'))
+source(here('analysis','functions','disch_conv.r'))
+source(here('analysis','effect_analysis.r'))
 
 sQm = disch_conv(q = tab$event_means$mean_survey_Q, area = 48.4)
 mo = mdspl
@@ -28,7 +23,6 @@ n2 = pairs$two[p]
 
 pal = c('black','red3','cadetblue4','chartreuse4','royalblue4','orchid4','palevioletred','goldenrod3','darkorange2','dodgerblue','darkolivegreen3','mediumorchid2','navajowhite2')
 
-
 #	function to pad space on plots by some factor in the x and y directions.
 
 padd = function(x,y,xpad = 0.1, ypad = 0.1) {
@@ -40,8 +34,6 @@ padd = function(x,y,xpad = 0.1, ypad = 0.1) {
 }
 
 exc = c(1,3,4)
-
-
 
 pdf(figout, width = 9, height = 6, useDingbats = F)
 
@@ -149,13 +141,13 @@ title(ylab = expression(Delta~A[lon]~(m^2)), xlab = expression(Delta~A[lat]~(m^2
 # abline(a = 0, b = 1, col = 'lightgrey')
 # #points(widen_effect, expand_effect, pch = 19, col = 'grey35')
 # points(widen_effect, expand_effect, pch = 19, col = pal[loop[is]])
-# 
+#
 # #event comparison is point 42
 # nm = 48
 # points(widen_effect[nm], expand_effect[nm], col = pal[loop[is][nm]], cex = 2, pch = 1)
-# 
+#
 # boxaxes()
-# 
+#
 # title(ylab = 'Expansion', xlab = 'Widening', line = 2.5, main = '(c)')
 
 
@@ -200,14 +192,14 @@ points(exx[c(n1,n2)], why[c(n1,n2)], col = pall[c(n1,n2)], cex = 2, pch = 1)
 box()
 
 	blah = c(0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000)
-	
+
 for (i in 1:2) {
 	axis(i, lwd = 0, lwd.tick = 1, tcl = 0.5, at = log10(blah), labels = blah)
 }
 
 for (i in 3:4) {
-	axis(i, lwd = 0, lwd.tick = 1, tcl = 0.5, at = log10(blah), labels = NA)	
-}	
+	axis(i, lwd = 0, lwd.tick = 1, tcl = 0.5, at = log10(blah), labels = NA)
+}
 
 title(ylab = expression(Total~Surface~Area~(m^2)), xlab = 'Discharge (mm/hr)', line = 2.5, main = '(b)')
 
