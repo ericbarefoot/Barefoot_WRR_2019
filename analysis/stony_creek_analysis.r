@@ -4,26 +4,28 @@
 
 ##  TODO  ##
 #   make sure all scripts run as they are supposed to.
-#	organize by analysis type, as in, what are the goals or analyses I want to do, and group by those.
-#	eventually modularize the whole thing into an R package for distribution on Github.
 
+########################################################
+# import necessary libraries
+
+library(here)
 
 ########################################################
 #	set directories
 
-wd = getwd()
-
-pd = file.path(wd, '..')
-
-dd = file.path(pd, 'data')
-
-fd = file.path(pd, 'analysis', 'functions')
-
-#  figure script directory
-fsd = file.path(pd, 'figures', 'scripts')
-
-#  figure output directory
-fod = file.path(pd, 'figures', 'outputs')
+# wd = getwd()
+#
+# pd = file.path(wd, '..')
+#
+# dd = file.path(pd, 'data')
+#
+# fd = file.path(pd, 'analysis', 'functions')
+#
+# #  figure script directory
+# fsd = file.path(pd, 'figures', 'scripts')
+#
+# #  figure output directory
+# fod = file.path(pd, 'figures', 'outputs')
 
 ########################################################
 
@@ -31,8 +33,8 @@ fod = file.path(pd, 'figures', 'outputs')
 
 # if you just want to start some analysis and don't need to reprocess the data, use this one:
 
-load(file.path(dd, 'derived_data', 'digested', 'outputs', 'tab_data.rda'))
-load(file.path(dd, 'derived_data', 'digested', 'outputs', 'high_low_table.rda'))
+load(here('data', 'derived_data','tab_data.rda'))
+load(here('data', 'derived_data','high_low_table.rda'))
 
 # if you have new data, use this one:
 
@@ -41,8 +43,6 @@ load(file.path(dd, 'derived_data', 'digested', 'outputs', 'high_low_table.rda'))
 # this is not as easy as the load option, but you can also read in from csv with this script:
 
 #	source(file.path(dd,'stony_creek_io.r'))
-
-#ls() ; setwd(pd)
 
 # data outputs (in list called 'tab') -
 
@@ -62,106 +62,103 @@ load(file.path(dd, 'derived_data', 'digested', 'outputs', 'high_low_table.rda'))
 
 ## gives the ratio of flowing to non-flowing points in the network for each survey
 
-source(file.path(wd, 'flowing_ratio.r'))
+source(here('analysis', 'flowing_ratio.r'))
 
 ## models and calculates some basic information about the distributions of widths
 
-source(file.path(wd, 'dist_basics.r'))
+source(here('analysis', 'dist_basics.r'))
 
 ## calculates the percentile of flow for each survey
 
-source(file.path(wd, 'percentile_calc.r'))
+source(here('analysis', 'percentile_calc.r'))
 
 ## calculates the annual hydrological statistics
 
-source(file.path(wd, 'hydro_stats.r'))
+source(here('analysis', 'hydro_stats.r'))
 
 ## calculates the approximate fractal dimension of the network based on a box-counting algorithm
 
-# source(file.path(wd, 'fractal_dim.r'))
+# source(here('analysis', 'fractal_dim.r'))
 
 ## calculates relative area effects of widening and expansion
 
-source(file.path(wd, 'effect_analysis.r'))
+source(here('analysis', 'effect_analysis.r'))
 
 ## calculating b and the corresponding correlation coefficient everywhere. Must run this once before generating the map below.
 
-source(file.path(wd, 'b_calcs.r'))
+source(here('analysis', 'b_calcs.r'))
 
 ## get the hltab data
 
-source(file.path(wd, 'high_low', 'compile_data_hl.r'))
+source(here('analysis', 'compile_data_hl.r'))
 
 #######################################################
 
 # Figure Generation
 
-
 #  figures used to have this little bit after them to open up the figure immediately, but I don't know why anymore.
-
-cmd = paste('open', figout); system(cmd)
-
-## plots hydrograph for system for whole record that we have, both log and linear scale. also includes points marking survey dates
-
-source(file.path(fsd, 'hydrograph_basic.r'))
-
-## maps of r^2 and b for w = aQb relationship
-
-source(file.path(fsd,'r_n_b_map.r'))
-
-## maps of width during each event
-
-source(file.path(fsd,'width_maps_2.r'))
-
-## maps of the active drainage network
-
-source(file.path(fsd,'adn_maps.r'))
-
-## comparing distributions
-
-source(file.path(fsd,'stacked_dists.r'))
 
 ## main analytical figure
 
-source(file.path(fsd, 'explain_figure.r'))
+source(here('figures', 'scripts', 'explain_figure.r'))
 
 ## comparing distributions with inset hydrograph
 
-source(file.path(fsd,'stacked_w_hydro.r'))
+source(here('figures', 'scripts','stacked_w_hydro.r'))
 
-## comparing distributions simple for ppt
+## maps of width during each event
 
-source(file.path(fsd,'stacked_simple.r'))
+source(here('figures', 'scripts','width_maps_2.r'))
 
-## distributions broken down by order
+## maps of the active drainage network
 
-source(file.path(fsd,'dist_by_order.r'))
+source(here('figures', 'scripts','adn_maps.r'))
 
-## comparing modal width to discharge
-
-source(file.path(fsd,'width_Q.r'))
-
-## comparing the modal width to the ratio of flowing to non-flowing segments
-
-### oops
-
-source(file.path(fsd,'width_flow_rat.r'))
-
-## comparing modal width to total surface area
-
-source(file.path(fsd, 'width_area.r'))
-
-## comparing modal width frequency to discharge
-
-source(file.path(fsd,'peak_Q.r'))
-
-## comparing discharge to total surface area
-
-source(file.path(fsd, 'area_Q.r'))
-
-## Comparing modal width methods with each other and finally to their respective peak frequencies.
-
-source(file.path(fsd, 'peaks_and_modes.r'))
+# ## comparing distributions
+#
+# source(here('figures', 'scripts','stacked_dists.r'))
+#
+# ## plots hydrograph for system for whole record that we have, both log and linear scale. also includes points marking survey dates
+#
+# source(here('figures', 'scripts', 'hydrograph_basic.r'))
+#
+# ## maps of r^2 and b for w = aQb relationship
+#
+# source(here('figures', 'scripts','r_n_b_map.r'))
+#
+# ## comparing distributions simple for ppt
+#
+# source(here('figures', 'scripts','stacked_simple.r'))
+#
+# ## distributions broken down by order
+#
+# source(here('figures', 'scripts','dist_by_order.r'))
+#
+# ## comparing modal width to discharge
+#
+# source(here('figures', 'scripts','width_Q.r'))
+#
+# ## comparing the modal width to the ratio of flowing to non-flowing segments
+#
+# ### oops
+#
+# source(here('figures', 'scripts','width_flow_rat.r'))
+#
+# ## comparing modal width to total surface area
+#
+# source(here('figures', 'scripts', 'width_area.r'))
+#
+# ## comparing modal width frequency to discharge
+#
+# source(here('figures', 'scripts','peak_Q.r'))
+#
+# ## comparing discharge to total surface area
+#
+# source(here('figures', 'scripts', 'area_Q.r'))
+#
+# ## Comparing modal width methods with each other and finally to their respective peak frequencies.
+#
+# source(here('figures', 'scripts', 'peaks_and_modes.r'))
 
 
 

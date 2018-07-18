@@ -2,13 +2,9 @@
 ##	Eric Barefoot
 ##	Mar 2016
 
-wd = getwd()
-
-pd = file.path(wd, '..')
-
 require(dplyr)
 
-source(file.path(wd,'dist_basics.r'))
+source(here('analysis','dist_basics.r'))
 
 sQm = tab$event_means$mean_survey_Q
 
@@ -39,7 +35,7 @@ for (i in 1:nrow(just_widths)) {
 	wz = wid_pt == 0
 	logwid = log10(wid_pt[!wz])
 	logQ = log10(sQm[!wz])
-	if (length(which(wz == F)) > 3) {	
+	if (length(which(wz == F)) > 3) {
 		mod = lm(logwid~logQ)
 		b[i] = mod$coefficients[2]
 		a[i] = mod$coefficients[1]

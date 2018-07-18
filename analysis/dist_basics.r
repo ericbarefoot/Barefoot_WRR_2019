@@ -2,12 +2,6 @@
 # Eric Barefoot
 # Nov 2015
 
-wd <- getwd()
-
-pd <- file.path(wd, "..")
-
-dd <- file.path(pd, "data", "derived_data", "digested", "outputs")
-
 # find the first data column and find the overall mean of all non-zero measurements
 col1 <- which(names(tab$fdata) == "w00")
 widds <- seq(col1, length(tab$fdata), by = 2)

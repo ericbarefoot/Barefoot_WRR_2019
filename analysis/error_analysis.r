@@ -1,18 +1,12 @@
 #	calculating measurement error at Stony Creek
 #	Eric Barefoot
-#	June 2016
-
-wd = getwd()
-
-pd = file.path(wd, '..')
-
-dd = file.path(pd, 'data', 'derived_data', 'digested')
+#	July 2018
 
 #	load data
 
 #	first, scan in the csv file.
 
-err = read.csv(file.path(dd, 'stony_creek_error_estimation.csv'))
+err = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_error_estimation.csv'))
 
 #	now, isolate just the measurements in a matrix
 

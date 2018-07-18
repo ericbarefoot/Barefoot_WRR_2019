@@ -4,21 +4,21 @@
 
 ##	Total Runoff
 
-wd = getwd()
-
-pd = file.path(wd, '..')
-
-dd = file.path(pd, 'data', 'derived_data', 'digested')
+# wd = getwd()
+#
+# pd = file.path(wd, '..')
+#
+# dd = file.path(pd, 'data', 'derived_data', 'digested')
 
 #	functions
 
-source(file.path(wd, 'functions', 'disch_conv.r'))
+source(here('analysis', 'functions', 'disch_conv.r'))
 
 #	mean daily discharge
 
 #	pull in the original data
-disch_data = read.csv(file.path(dd, 'discharge_data.csv'), header = T)
 
+disch_data = read.csv(here('data', 'derived_data', 'discharge_data.csv'), header = T)
 
 ratecurve = function(a) { b = 0.000001 * (a ^ 3.0684); return(list(x = a, y = b)) }
 
@@ -54,7 +54,6 @@ q_m = mean(q)
 
 #	read in data
 
-precip = read.csv(file.path(dd, 'precip_eno.csv'), header = T)
+# precip = read.csv(file.path(dd, 'precip_eno.csv'), header = T)
 
 ##	Total Evapo
-

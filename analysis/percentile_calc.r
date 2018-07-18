@@ -1,20 +1,20 @@
 #	calculating percentiles of flow. Based on data from Bolin Creek.
 #	Eric Barefoot
 #	May 2016
-bd = file.path(pd, 'data', 'raw_data', 'hydro_data', 'bolin')
 
 #	load functions
-require(lubridate)
-source(file.path(fund,'percentiles.r'))
+source(here::here('analysis','functions','percentiles.r'))
 
 #	read in bolin creek data
 
-bolin = read.csv(file.path(bd,'bolin_2012_2017.csv'), header = T, skip = 34)
+bolin = read.csv(here::here('data', 'raw_data', 'hydro_data', 'bolin_2012_2017.csv'), header = T, skip = 34)
 
 # 	relevant columns names from bolin creek data. daily data.
 #	min		X86324_00060_00001
 #	mean	X86325_00060_00002
 #	max		X86326_00060_00003
+
+require(lubridate, warn.conflicts = FALSE)
 
 survs = parse_date_time(tab$event_means$survey_date, 'ymd')
 
@@ -28,9 +28,11 @@ MQS = qq[c(ss,tail(ss,1))]
 
 pers = perc_func(qq, MQS)
 
+detach('package:lubridate', unload = TRUE)
+
 #pers = data.frame(survs, pers)
 
-# 	used this to explore whether percentiles from mean, min or max was best. picked mean. 
+# 	used this to explore whether percentiles from mean, min or max was best. picked mean.
 
 #	colz = c('X86324_00060_00001','X86325_00060_00002','X86326_00060_00003')
 #

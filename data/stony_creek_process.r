@@ -4,20 +4,12 @@
 
 #	set directories
 
-dd = getwd()
-
-pd = file.path(dd, '..')
-
-wd = file.path(dd, 'derived_data', 'digested')
-
-setwd(wd)
-
 # reading in the raw data
 
-disch_data = read.csv(paste0(wd, '/discharge_data.csv'), header = T)
-field_data = read.csv(paste0(wd, '/stony_creek_field_data.csv'), header = T)
-event_data = read.csv(paste0(wd, '/stony_creek_event_data.csv'), header = T)
-strm_order = read.csv(paste0(wd, '/stony_creek_strm_order.csv'), header = T)
+disch_data = read.csv(here('data', 'derived_data', 'discharge_data.csv'), header = T)
+field_data = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_field_data.csv'), header = T)
+event_data = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_event_data.csv'), header = T)
+strm_order = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_strm_order.csv'), header = T)
 
 # first thing is to extract the survey dates
 
@@ -110,7 +102,7 @@ colnames(fdata) = colnames(field_data)
 #	for every event::
 
 for (i in loop) {
-	
+
 #	these are the columns we're working on: 'widd' and 'ordd'
 	ordd = widd + 1
 #	note that ordd is the same as the the percentage column but i keep it this way for clarity
@@ -134,8 +126,7 @@ for (i in loop) {
 		colnames(fdata)[widd] = paste0('w',(i-1))
 		colnames(fdata)[ordd] = paste0('ord',(i-1))
 	}
-	
-	
+
 #	move to next width column in field_data
 	widd = widd + 2
 }
@@ -153,14 +144,11 @@ names(tab) = tab_names
 
 #	export em all as .csv files for sharing
 for(i in 1:length(tab)) {
-	write.csv(tab[[i]], file = paste0('outputs/',tab_names[i], '.csv'), row.names = F)
+	write.csv(tab[[i]], file = here('data', 'derived_data', paste0(tab_names[i], '.csv')), row.names = F)
 }
 
 #	also save as an RDATA file for easy and fast retrieval
-save(tab,tab_names, file = paste0('outputs/tab_data.rda'))
-
-#	clear out the list except for the outputs.
-rm(list = ls()[-which(ls() %in% c('pd','tab','tab_names'))])
+save(tab,tab_names, file = here('data', 'derived_data', 'tab_data.rda'))
 
 
 
@@ -189,36 +177,36 @@ rm(list = ls()[-which(ls() %in% c('pd','tab','tab_names'))])
 ### George's date manipulation code
 #######################################################
 
-# 
+#
 # if (usgsFlag[i] == 'stony'){ # stony 5 min interval records:
-#           
-#           # converted original xls file to csv in excel and renamed as "daily.csv" 
+#
+#           # converted original xls file to csv in excel and renamed as "daily.csv"
 #           qTab = read.csv(paste0(qTabPaths[i], '.csv'), header=T)
 #           hourlyQ = qTab$ Water.Level..mm
-#           
+#
 #           split = strsplit(as.vector(qTab$TIMESTAMP), ' ')
 #           allDates = rep(NA, nrow(qTab))
 #           for (j in 1:length(split)){
 #             allDates[j] = split[[j]][1]
 #           }
-#           
+#
 #           # average daily Q:
 #           dates = unique(allDates)
 #           q = dates
 #           for(j in 1:length(dates)){
 #             q[j] = mean(hourlyQ[dates[j] == allDates], na.rm=T)
 #           }
-#           
+#
 #           q = as.numeric(q)
-#           
+#
 #           fieldQ = q[match(fieldDates[i,], dates)]
-#           
+#
 #           cdf = ecdf(q)
 #           cdfRange = range(100*cdf(fieldQ), na.rm=T)
 #           cdfMean = mean(cdfRange)
 #           oTab$Q[i] = paste0(round(cdfMean, 2), '+/-', round(cdfMean-cdfRange[1], 2))
 #           oTab$QRecLength_yrs[i] =  round(length(q)/365, 2)
-#           
+#
 #         }
-# 
+#
 #####################################################

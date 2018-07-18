@@ -1,46 +1,41 @@
-#	recalculating all the major statistics without survey one and compiling everything into one table. also tagging events as high or low depending on a dynamic threshold 
+#	recalculating all the major statistics without survey one and compiling everything into one table. also tagging events as high or low depending on a dynamic threshold
 #	Eric Barefoot
 #	May 2016
 
-wd = getwd()
-
-#pd = file.path(wd, '..', '..')
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
-
-ad = file.path(pd, 'analysis')
-
-dd = file.path(pd, 'data')
-
-ddd = file.path(pd, 'data', 'derived_data', 'digested')
-
-fund = file.path(ad, 'functions')
+# wd = getwd()
+#
+# #pd = file.path(wd, '..', '..')
+# pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
+#
+# ad = file.path(pd, 'analysis')
+#
+# dd = file.path(pd, 'data')
+#
+# ddd = file.path(pd, 'data', 'derived_data', 'digested')
+#
+# fund = file.path(ad, 'functions')
 
 # Load functions
 
-source(file.path(fund, 'percentiles.r'))
+source(here::here('analysis', 'functions', 'percentiles.r'))
 
 # Load previous calcuations
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
 
-load(file.path(dd, 'derived_data', 'digested', 'outputs', 'tab_data.rda'))
+load(here::here('data', 'derived_data', 'tab_data.rda'))
 
-source(file.path(ad, 'dist_basics.r'))
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
+source(here::here('analysis', 'dist_basics.r'))
 
-source(file.path(ad, 'flowing_ratio.r'))
+source(here::here('analysis', 'flowing_ratio.r'))
 
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
-source(file.path(fund, 'disch_conv.r'))
+source(here::here('analysis', 'functions', 'disch_conv.r'))
 
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
-source(file.path(ad, 'percentile_calc.r'))
+source(here::here('analysis', 'percentile_calc.r'))
 
-pd = "/Users/ericfoot/Dropbox/research/headwater_stream_widths"
-source(file.path(ad, 'ks_stats.r'))
+source(here::here('analysis', 'ks_stats.r'))
 
 #	and some previous data
 
-drain_dens = read.csv(file.path(ddd, 'drain_dates.csv'))[,1]
+drain_dens = read.csv(here::here('data', 'derived_data', 'drain_dates.csv'))[,1]
 
 # function for labeling events as high or low
 
@@ -50,10 +45,10 @@ hl_cut_ratio = 90	# this is the cutoff zero/notz ratio
 
 hl_cutoff = function(stat, flavor = c('percentile','flowing ratio'), pers, flow_rat) {
 	tags = c()
-	
+
 	flavors = c('percentile','flowing ratio')
 	flav = flavors[grep(flavor, flavors)]
-	
+
 	if (flav == 'percentile') {
 		for (i in 1:nrow(pers)) {
 			if (pers[,2][i] >= stat) {
@@ -63,7 +58,7 @@ hl_cutoff = function(stat, flavor = c('percentile','flowing ratio'), pers, flow_
 			}
 		}
 	}
-	
+
 	if (flav == 'flowing ratio') {
 		for (i in 1:length(flow_rat)) {
 			if (flow_rat[i] >= stat) {
@@ -87,7 +82,7 @@ length(flow_rat)
 hltab = data.frame(
 	names = names(tab$fdata)[grep('w', names(tab$fdata))],
 	date = survs,
-	Q = mQs, 
+	Q = mQs,
 	percs = pers[,2],
 	areas = areas,
 	lengs = lengs,
@@ -137,5 +132,5 @@ row.names(hltab) = surv_names
 
 	# save it to the data bank.
 
-save(hltab, file = file.path(ddd, 'outputs', 'high_low_table.rda'))
-write.csv(hltab, file = file.path(ddd, 'outputs', 'high_low_table.csv'))
+save(hltab, file = here::here('data', 'derived_data', 'high_low_table.rda'))
+write.csv(hltab, file = here::here('data', 'derived_data', 'high_low_table.csv'))
