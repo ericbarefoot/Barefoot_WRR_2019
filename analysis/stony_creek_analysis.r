@@ -14,23 +14,6 @@
 library(here)
 
 ########################################################
-#	set directories
-
-# wd = getwd()
-#
-# pd = file.path(wd, '..')
-#
-# dd = file.path(pd, 'data')
-#
-# fd = file.path(pd, 'analysis', 'functions')
-#
-# #  figure script directory
-# fsd = file.path(pd, 'figures', 'scripts')
-#
-# #  figure output directory
-# fod = file.path(pd, 'figures', 'outputs')
-
-########################################################
 
 # Data In/Out
 
@@ -41,11 +24,11 @@ load(here('data', 'derived_data','high_low_table.rda'))
 
 # if you have new data, use this one:
 
-#	source(file.path(dd,'stony_creek_process.r'))
+	source(here('data','stony_creek_process.r'))
 
 # this is not as easy as the load option, but you can also read in from csv with this script:
 
-#	source(file.path(dd,'stony_creek_io.r'))
+	source(here('data','stony_creek_io.r'))
 
 # data outputs (in list called 'tab') -
 
@@ -78,10 +61,6 @@ source(here('analysis', 'percentile_calc.r'))
 ## calculates the annual hydrological statistics
 
 source(here('analysis', 'hydro_stats.r'))
-
-## calculates the approximate fractal dimension of the network based on a box-counting algorithm
-
-# source(here('analysis', 'fractal_dim.r'))
 
 ## calculates relative area effects of widening and expansion
 
@@ -116,6 +95,14 @@ source(here('figures', 'scripts','width_maps_2.r'))
 ## maps of the active drainage network
 
 source(here('figures', 'scripts','adn_maps.r'))
+
+#######################################################
+
+# Scripts that I don't use anymore.
+
+## calculates the approximate fractal dimension of the network based on a box-counting algorithm
+
+# source(here('analysis', 'fractal_dim.r'))
 
 # ## comparing distributions
 #
@@ -162,62 +149,6 @@ source(here('figures', 'scripts','adn_maps.r'))
 # ## Comparing modal width methods with each other and finally to their respective peak frequencies.
 #
 # source(here('figures', 'scripts', 'peaks_and_modes.r'))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#######################################################
-
-# Scripts that I don't use anymore.
 
 ## forward modeling function to generate a stochastically perturbed hortonian network to compare to our distributions
 
