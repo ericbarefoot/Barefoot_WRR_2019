@@ -4,19 +4,19 @@
 #	Jun 2016
 
 # runs through each stream centerline, calculates the orthogonal
-# direction to the along stream direction at each vertex. 
-# shapefiles need with UTM coordinates and also joined 
+# direction to the along stream direction at each vertex.
+# shapefiles need with UTM coordinates and also joined
 # field data for this to work.
 
 # assume imported field data from master file for now
 
-wd = file.path(pd, 'figures','scripts')
-outd = file.path(pd, 'figures','outputs')
+wd = here('figures','scripts')
+outd = here('figures','outputs')
 
-source(file.path(pd,'analysis','dist_basics.r'))
-source(file.path(pd,'analysis','functions/spread.r'))
-source(file.path(pd,'analysis','functions/boxaxes.r'))
-source(file.path(pd,'analysis','functions','disch_conv.r'))
+source(here('analysis','dist_basics.r'))
+source(here('analysis','functions/spread.r'))
+source(here('analysis','functions/boxaxes.r'))
+source(here('analysis','functions','disch_conv.r'))
 
 figout = file.path(outd,'width_maps_2.pdf')
 
@@ -46,7 +46,8 @@ grouper <- function(x){
 mQs = disch_conv(q = tab$event_means$mean_survey_Q, area = 48.4)
 
 #inDbfPaths = paste0(pd,'data/GIS/stony_segments/stony_segment_pts.dbf')
-inDbfPaths = '/Users/ericfoot/Dropbox/research/headwater_stream_widths/data/raw_data/gis_data/GIS - sort out when have arcCatalogue/stony_segments/stony_segment_pts.dbf'
+inDbfPaths = here('data', 'raw_data', 'gis_data', 'stony_segment_pts.dbf')
+# inDbfPaths = '/Users/ericfoot/Dropbox/research/headwater_stream_widths/data/raw_data/gis_data/GIS - sort out when have arcCatalogue/stony_segments/stony_segment_pts.dbf'
 
 # import and process data:
 thetab = data.frame(read.dbf(inDbfPaths))
@@ -66,7 +67,7 @@ op = par(mfrow = c(4,3),
 for (m in 2:length(colz)){
 
 	# calculate cross sectional direction at each vertex:
-	
+
 	x = thetab$lon
 	y = thetab$lat
 	s = thetab$Name
@@ -75,32 +76,32 @@ for (m in 2:length(colz)){
 
 	w = spread(thetab, 'Name', tab$fdata, 'flag_id', colz[m])
 	w = w * 0.01 * wMult # convert to meters
-	
+
 	l = nrow(thetab)
 
-	# chop start and end of vectors calculate bearing between neighbors: 
-	
+	# chop start and end of vectors calculate bearing between neighbors:
+
 	p1x = x[-c((l-n+2):l)]
 	p1y = y[-c((l-n+2):l)]
 	p2x = x[-c(1:(n-1))]
 	p2y = y[-c(1:(n-1))]
 
 	# calculate centerline angle:
-	
+
 	a = atan2(p2y-p1y, p2x-p1x)*180/pi
 
 	# make a original length
-	
-	a = c(rep(-999, floor(n/2)), a, rep(-999, floor(n/2))) 
+
+	a = c(rep(-999, floor(n/2)), a, rep(-999, floor(n/2)))
 
 	#### handle start and end of segments (where angles get funky):
 
 	# locate where new segments start:
-	
+
 	j = which(!duplicated(s))
 
 	# insert NAs at start, end, and jump in vector:
-	
+
 	for (i in rev(1:length(j))) {
 		x = insertRow(x, NA, j[i])
 		y = insertRow(y, NA, j[i])
@@ -112,7 +113,7 @@ for (m in 2:length(colz)){
 	a = c(a, NA)
 
 	# get bounds of NA values:
-	
+
 	jNA = which(is.na(a))
 
 	closeL = jNA[-1] - 1
@@ -130,12 +131,12 @@ for (m in 2:length(colz)){
 		for (ii in 1:length(fL)){
 
 			# calculate all points on left sides of jumps:
-	
+
 			L = c((fL[ii]-floor(n/2)), closeL[i])
 			a[fL[ii]] = atan2((y[L[2]]-y[L[1]]), (x[L[2]]-x[L[1]]))*180/pi
 
 			# handle all points on right sides of vectors:
-			
+
 			R = c(closeR[i], (rL[ii]+floor(n/2)))
 			a[rL[ii]] = atan2((y[R[2]]-y[R[1]]), (x[R[2]]-x[R[1]]))*180/pi
 		}
@@ -147,7 +148,7 @@ for (m in 2:length(colz)){
 
 	########################################################################
 	# find XY of channel bounds:
-	
+
 	q = 90-a
 	q[q < 0] = q[q < 0] + 360
 
@@ -157,7 +158,7 @@ for (m in 2:length(colz)){
 	o2y = y + sin(q*pi/180)*w
 
 	# set XY coordinates with a zero width to NA:
-	
+
 	zW = w == 0
 
 	o1x[zW] = NA
@@ -185,9 +186,9 @@ for (m in 2:length(colz)){
 
 	#############################
 	#PLOT:
-	
-	Y = list(x = c(673207, 673343), y = c(3989601, 3989719)) 
-	
+
+	Y = list(x = c(673207, 673343), y = c(3989601, 3989719))
+
 	plot(x, y, type = 'n', xlim=sort(Y$x), ylim = sort(Y$y), asp = 1, lwd = 0.1, col = 1, axes = F, ann = F)
 	polygon(ox, oy, col='darkblue', lwd = 0.1, border = NA)
 	text(x = 673280, y = 3989700, labels = paste(m-1), col = pal[m], cex = 4)
@@ -195,7 +196,7 @@ for (m in 2:length(colz)){
     text(x = 673339, y = 3989700, labels = paste(round(mQs[m], digits = 2), ' mm/hr'), col = pal[m], cex = 2.8)
 
 	if (m == 13) {text(pts, labels = c('S07A','S14A'), cex = 2.5, col = 'grey50')}
-	
+
 	if (m == 13) {
 		segments(673343, 3989670, 673343, 3989720, lwd = 2)
 #		text(x = 673350, y = 3989695, labels = 'N', cex = 2)
@@ -204,5 +205,3 @@ for (m in 2:length(colz)){
 }
 
  dev.off()
-
-

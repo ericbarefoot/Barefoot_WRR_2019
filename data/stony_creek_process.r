@@ -54,8 +54,12 @@ survey_window = list()			# temporary list holding the indices of each survey.
 mean_daily_Q = numeric(0)		# mean daily discharge
 label = numeric(0)				# dummy label for each survey in the full list.
 mean_survey_Q = numeric(0)		# mean discharge during measurement
+rang_survey_Q = numeric(0)		# mean discharge during measurement
 ser_survey_Q = numeric(0)		# time series of discharge during event
 survey_times = character(0)		# time variable for each event.
+
+low_survey_Q = numeric(0)
+hii_survey_Q = numeric(0)
 
 for(i in 1:length(surveys_start)) {
 	survey_window[[i]] = which(hydro$date >= surveys_start[i] & hydro$date <= surveys_end[i])
@@ -63,6 +67,9 @@ for(i in 1:length(surveys_start)) {
 	daily_wind = which(hydro$date >= date_start[i] & hydro$date <= date_end[i])
 	mean_daily_Q[i] = mean(hydro$Q[daily_wind])
 	mean_survey_Q[i] = mean(hydro$Q[survey_window[[i]]])
+	rang_survey_Q[i] = diff(range(hydro$Q[survey_window[[i]]]))
+	low_survey_Q[i] = range(hydro$Q[survey_window[[i]]])[1]
+	hii_survey_Q[i] = range(hydro$Q[survey_window[[i]]])[2]
 	ser_survey_Q = c(ser_survey_Q, hydro$Q[survey_window[[i]]])
 	label = c(label, rep(i, length(hydro$Q[survey_window[[i]]])))
 }
@@ -73,7 +80,8 @@ survey_date = as.Date(surveys_start)
 
 # tabulating daily mean discharge and dates
 
-event_means = data.frame(survey_date, mean_daily_Q, mean_survey_Q, event_id = event_data$event_id)
+event_means = data.frame(survey_date, mean_daily_Q, mean_survey_Q, rang_survey_Q, event_id = event_data$event_id, low_survey_Q,
+hii_survey_Q)
 
 # tabulating discharge record separated out by survey day.
 
