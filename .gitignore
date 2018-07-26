@@ -3,7 +3,7 @@
 
 /outputs
 
-/derived_data
+# /derived_data
 
 stony_segment_pts_test.xlsx
 

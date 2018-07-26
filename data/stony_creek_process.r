@@ -150,6 +150,10 @@ tab_names = c('fdata','hydro','event_means','surveyQ','orders')
 tab = list(fdata,hydro,event_means,surveyQ,orders)
 names(tab) = tab_names
 
+if (!file.exists(here('data', 'derived_data'))) {
+	dir.create(here('data', 'derived_data'))
+}
+
 #	export em all as .csv files for sharing
 for(i in 1:length(tab)) {
 	write.csv(tab[[i]], file = here('data', 'derived_data', paste0(tab_names[i], '.csv')), row.names = F)
