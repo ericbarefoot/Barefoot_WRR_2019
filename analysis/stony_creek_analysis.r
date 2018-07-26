@@ -4,9 +4,9 @@
 # Eric Barefoot
 # July 2018
 
-# Call this script from the command line while in the directory as follows:
+# Call this script from the command line while in the top directory as follows:
 #
-# OSX/Linux: "./stony_creek_analysis.r"
+# OSX/Linux: "./analysis/stony_creek_analysis.r"
 
 ########################################################
 # import necessary libraries
@@ -19,18 +19,28 @@ library(here)
 
 # if you just want to start some analysis and don't need to reprocess the data, use this one:
 
-load(here('data', 'derived_data','tab_data.rda'))
-load(here('data', 'derived_data','high_low_table.rda'))
+mainDataFile = here('data', 'derived_data','tab_data.rda')
+summaryData = here('data', 'derived_data','high_low_table.rda')
 
-# if you have new data, use this one:
+if(file.exists(mainDataFile) & file.exists(summaryData)) {
+	load(here('data', 'derived_data', 'tab_data.rda'))
+	load(here('data', 'derived_data','high_low_table.rda'))
+} else {
+	source(here('data', 'stony_creek_process.r'))
+	load(here('data', 'derived_data', 'tab_data.rda'))
+	source(here('analysis', 'compile_data_hl.r'))
+	load(here('data', 'derived_data','high_low_table.rda'))
+}
 
-	source(here('data','stony_creek_process.r'))
-
-# this is not as easy as the load option, but you can also read in from csv with this script:
-
-	source(here('data','stony_creek_io.r'))
-
-# data outputs (in list called 'tab') -
+# # if you have new data, use this one:
+#
+# 	source(here('data','stony_creek_process.r'))
+#
+# # this is not as easy as the load option, but you can also read in from csv with this script:
+#
+# 	source(here('data','stony_creek_io.r'))
+#
+# # data outputs (in list called 'tab') -
 
 	# fdata - width surveys through time. Has unique flag ID codes (flag_id), upstream distance from the bottom of the watershed in meters (upstream_dist), channel order (order_chan), lat/lon coordinates in decimal degrees for each flag (easting, northing), elevation (m), stream order for each event (ord00, ord01, ...), and scaled width in cm at each flag for different surveys (w01,w02,w03, ...).
 
@@ -82,19 +92,19 @@ source(here('analysis', 'compile_data_hl.r'))
 
 ## main analytical figure
 
-source(here('figures', 'scripts', 'explain_figure.r'))
+source(here('figures', 'scripts', 'figure_6.r'))
 
 ## comparing distributions with inset hydrograph
 
-source(here('figures', 'scripts','stacked_w_hydro.r'))
+source(here('figures', 'scripts','figure_5.r'))
 
 ## maps of width during each event
 
-source(here('figures', 'scripts','width_maps_2.r'))
+source(here('figures', 'scripts','figure_4.r'))
 
 ## maps of the active drainage network
 
-source(here('figures', 'scripts','adn_maps.r'))
+source(here('figures', 'scripts','figure_3.r'))
 
 #######################################################
 

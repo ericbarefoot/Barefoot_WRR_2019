@@ -3,4 +3,8 @@
 
 /outputs
 
+# /derived_data
+
+stony_segment_pts_test.xlsx
+
 .DS_Store

@@ -35,7 +35,7 @@ source(here::here('analysis', 'ks_stats.r'))
 
 #	and some previous data
 
-drain_dens = read.csv(here::here('data', 'derived_data', 'drain_dates.csv'))[,1]
+drain_dens = read.csv(here::here('data', 'raw_data', 'hydro_data', 'drain_dates.csv'))[,1]
 
 # function for labeling events as high or low
 

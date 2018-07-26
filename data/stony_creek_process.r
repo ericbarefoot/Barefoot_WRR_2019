@@ -6,7 +6,7 @@
 
 # reading in the raw data
 
-disch_data = read.csv(here('data', 'derived_data', 'discharge_data.csv'), header = T)
+disch_data = read.csv(here('data', 'raw_data', 'hydro_data', 'discharge_data.csv'), header = T)
 field_data = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_field_data.csv'), header = T)
 event_data = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_event_data.csv'), header = T)
 strm_order = read.csv(here('data', 'raw_data', 'field_data', 'stony_creek_strm_order.csv'), header = T)
@@ -149,6 +149,10 @@ names(fdata)
 tab_names = c('fdata','hydro','event_means','surveyQ','orders')
 tab = list(fdata,hydro,event_means,surveyQ,orders)
 names(tab) = tab_names
+
+if (!file.exists(here('data', 'derived_data'))) {
+	dir.create(here('data', 'derived_data'))
+}
 
 #	export em all as .csv files for sharing
 for(i in 1:length(tab)) {
