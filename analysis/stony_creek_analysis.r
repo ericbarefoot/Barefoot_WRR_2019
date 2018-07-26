@@ -23,12 +23,12 @@ mainDataFile = here('data', 'derived_data','tab_data.rda')
 summaryData = here('data', 'derived_data','high_low_table.rda')
 
 if(file.exists(mainDataFile) & file.exists(summaryData)) {
-	load(here('data', 'derived_data','tab_data.rda'))
+	load(here('data', 'derived_data', 'tab_data.rda'))
 	load(here('data', 'derived_data','high_low_table.rda'))
 } else {
-	source(here('data','stony_creek_process.r'))
-	load(here('data', 'derived_data','tab_data.rda'))
-	source(here('analysis' 'compile_data_hl.r')
+	source(here('data', 'stony_creek_process.r'))
+	load(here('data', 'derived_data', 'tab_data.rda'))
+	source(here('analysis', 'compile_data_hl.r'))
 	load(here('data', 'derived_data','high_low_table.rda'))
 }
 
