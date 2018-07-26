@@ -48,7 +48,6 @@ If the installation is correct, you should see the following file structure:
 │   └── stony_creek_analysis.r
 ├── data
 │   ├── README.txt
-│   ├── derived_data
 │   ├── raw_data
 │   │   ├── field_data
 │   │   │   ├── stony_creek_error_estimation.csv
@@ -59,7 +58,9 @@ If the installation is correct, you should see the following file structure:
 │   │   │   ├── stony_segment_pts.dbf
 │   │   │   └── stony_segment_pts_test.xlsx
 │   │   └── hydro_data
-│   │       └── bolin_2012_2017.csv
+│   │       ├── bolin_2012_2017.csv
+│   │       ├── discharge_data.csv
+│   │       └── drain_dates.csv
 │   ├── stony_creek_io.r
 │   └── stony_creek_process.r
 └── figures
