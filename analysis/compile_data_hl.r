@@ -35,7 +35,7 @@ source(here::here('analysis', 'ks_stats.r'))
 
 #	and some previous data
 
-drain_dens = read.csv(here::here('data', 'derived_data', 'drain_dates.csv'))[,1]
+drain_dens = read.csv(here::here('data', 'raw_data', 'hydro_data', 'drain_dates.csv'))[,1]
 
 # function for labeling events as high or low
 
@@ -71,6 +71,8 @@ hl_cutoff = function(stat, flavor = c('percentile','flowing ratio'), pers, flow_
 	return(tags)
 }
 
+muus = unlist(lapply(lognorms, function(x) {m = exp(x$estimate[1]); v = exp(x$estimate[2])^2; muu = log(m/(sqrt(1 + (v/m^2))))}))
+
 # hl_cutoff(0.8, flavor = 'flow', flow_rat = flow_rat)
 
 # compile all the different stats into a database. !!this is different than the way I did it this way before!! we have surveys as rows and variables as columns. so w01 is a row and spline mode is a col.
@@ -89,6 +91,7 @@ hltab = data.frame(
 	ratio = flow_rat,
 	modes = mdspl,
 	means = wbar,
+	muuus = muus,
 	siggs = wsig,
 	inter = wiqr,
 	peaks = fdspl,
@@ -115,6 +118,7 @@ hltab = data.frame(
 #	ratio - total length
 #	modes - mode - spline fit
 #	means - mean width
+# muuus - mu values for lognormal density
 #	siggs - standard deviation of width
 #	inter - IQR of width
 #	peaks - peak - spline fit

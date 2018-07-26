@@ -18,7 +18,7 @@ source(here('analysis', 'functions', 'disch_conv.r'))
 
 #	pull in the original data
 
-disch_data = read.csv(here('data', 'derived_data', 'discharge_data.csv'), header = T)
+disch_data = read.csv(here('data', 'raw_data', 'hydro_data', 'discharge_data.csv'), header = T)
 
 ratecurve = function(a) { b = 0.000001 * (a ^ 3.0684); return(list(x = a, y = b)) }
 
