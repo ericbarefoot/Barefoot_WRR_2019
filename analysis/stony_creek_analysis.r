@@ -9,9 +9,20 @@
 # OSX/Linux: "./analysis/stony_creek_analysis.r"
 
 ########################################################
-# import necessary libraries
+# install and load  necessary libraries
 
-library(here)
+packages = c("lubridate", "dplyr", "here")
+
+ipak <- function(pkg){
+    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
+    if (length(new.pkg)) 
+        install.packages(new.pkg, dependencies = TRUE)
+    sapply(pkg, require, character.only = TRUE)
+}
+
+ipak(packages)
+
+#library(here)
 
 ########################################################
 
