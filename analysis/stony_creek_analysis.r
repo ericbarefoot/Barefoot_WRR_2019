@@ -11,18 +11,18 @@
 ########################################################
 # install and load  necessary libraries
 
-packages = c("lubridate", "dplyr", "here")
+packages = c('here', 'foreign', 'lubridate', 'dplyr', 'MASS')
 
-ipak <- function(pkg){
-    new.pkg <- pkg[!(pkg %in% installed.packages()[, "Package"])]
-    if (length(new.pkg)) 
-        install.packages(new.pkg, dependencies = TRUE)
-    sapply(pkg, require, character.only = TRUE)
+ipak = function(pkg){
+  new_pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
+  if (length(new_pkg)) {
+    install.packages(new_pkg, dependencies = TRUE)
+  }
 }
 
 ipak(packages)
 
-#library(here)
+library(here)
 
 ########################################################
 
