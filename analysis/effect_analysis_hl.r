@@ -16,8 +16,7 @@ fd = file.path(ad, 'functions')
 
 #	load packages
 
-require(dplyr)
-require(rgl)
+require(dplyr, warn.conflicts = FALSE, quietly = TRUE)
 
 #	function to pad space on plots by some factor in the x and y directions.
 
@@ -179,7 +178,7 @@ hltab_plot = function(xvar, yvar, pal = c('red3', 'cadetblue4', 'chartreuse4', '
 	a = (ltab[,xvar])
 	b = (ltab[,yvar])
 	aa = (hltab[,xvar])
-	bb = (hltab[,yvar])	
+	bb = (hltab[,yvar])
 	aaa = (htab[,xvar])
 	bbb = (htab[,yvar])
 	if (lev == 'high') {
@@ -203,7 +202,7 @@ hltab_plot = function(xvar, yvar, pal = c('red3', 'cadetblue4', 'chartreuse4', '
 	plot(xx, yy, type = 'n', xlim = padds$xran, ylim = padds$yran, ann = F)
 	points(xx, yy, col = pal, pch = pchset)
 	title(xlab = xnam, ylab = ynam)
-	
+
 	return(list(x = xx, y = yy))
 }
 
@@ -241,7 +240,3 @@ bg3d('grey24')
 plot3d(xx,yy,zz, col = pal, xlim = padds$xran, ylim = padds$yran, zlim = zran, size = 4, xlab = '', ylab = '', zlab = '')
 axes3d(col = 'lightgrey')
 title3d(xlab = xnam, ylab = ynam, zlab = znam, col = 'lightgrey')
-
-
-
-

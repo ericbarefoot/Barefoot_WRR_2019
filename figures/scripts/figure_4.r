@@ -22,7 +22,7 @@ source(here('analysis','functions','disch_conv.r'))
 
 figout = file.path(outd,'figure_4_draft.pdf')
 
-require(foreign)
+require(foreign, warn.conflicts = FALSE, quietly = TRUE)
 
 # input parameters:
 n = 3 # N vertices overwhich to calculate direction (must be odd numbers >1)

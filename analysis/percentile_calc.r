@@ -14,7 +14,7 @@ bolin = read.csv(here::here('data', 'raw_data', 'hydro_data', 'bolin_2012_2017.c
 #	mean	X86325_00060_00002
 #	max		X86326_00060_00003
 
-require(lubridate, warn.conflicts = FALSE)
+require(lubridate, warn.conflicts = FALSE, quietly = TRUE)
 
 survs = parse_date_time(tab$event_means$survey_date, 'ymd')
 
