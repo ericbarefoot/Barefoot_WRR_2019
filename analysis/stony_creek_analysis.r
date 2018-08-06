@@ -22,7 +22,7 @@ library(here)
 mainDataFile = here('data', 'derived_data','tab_data.rda')
 summaryData = here('data', 'derived_data','high_low_table.rda')
 
-if(file.exists(mainDataFile) & file.exists(summaryData)) {
+if(file.exists(mainDataFile) && file.exists(summaryData)) {
 	load(here('data', 'derived_data', 'tab_data.rda'))
 	load(here('data', 'derived_data','high_low_table.rda'))
 } else {
