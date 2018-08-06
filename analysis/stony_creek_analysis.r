@@ -21,11 +21,6 @@ library(here)
 
 mainDataFile = here('data', 'derived_data','tab_data.rda')
 summaryData = here('data', 'derived_data','high_low_table.rda')
-figureOutput = here('figures','outputs')
-derivedData = here('data','derived_data')
-
-if(!file.exists(figureOutput)) {dir.create(figureOutput)}
-if(!file.exists(derivedData)) {dir.create(derivedData)}
 
 if(file.exists(mainDataFile) && file.exists(summaryData)) {
 	load(here('data', 'derived_data', 'tab_data.rda'))
