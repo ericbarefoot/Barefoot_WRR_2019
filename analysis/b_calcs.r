@@ -2,7 +2,7 @@
 ##	Eric Barefoot
 # July 2018
 
-require(dplyr)
+require(dplyr, warn.conflicts = FALSE, quietly = TRUE)
 
 source(here('analysis','dist_basics.r'))
 

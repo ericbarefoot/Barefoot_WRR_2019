@@ -10,7 +10,7 @@ allnozero <- allwidths[!(allwidths == 0)]
 ovmean <- mean(allnozero, na.rm = T)
 
 # need this for fitting lognormal distributions
-require(MASS)
+require(MASS, warn.conflicts = FALSE, quietly = TRUE)
 
 # make a list where each element is a vector of widths with zeros removed. Also find the total surface area and total length
 

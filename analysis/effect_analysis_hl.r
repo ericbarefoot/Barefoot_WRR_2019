@@ -16,7 +16,7 @@ fd = file.path(ad, 'functions')
 
 #	load packages
 
-require(dplyr)
+require(dplyr, warn.conflicts = FALSE, quietly = TRUE)
 
 #	function to pad space on plots by some factor in the x and y directions.
 
