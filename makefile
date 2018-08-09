@@ -3,6 +3,6 @@ all:
 
 clean:
 	rm data/derived_data/*
-	rm figures/outputs/*_draft.pdf
+	rm figures/outputs/*_draft*
 
 .PHONY: all clean
