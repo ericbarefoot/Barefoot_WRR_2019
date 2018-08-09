@@ -5,7 +5,7 @@
 
 # produces a draft figure that is touched up in adobe illustrator
 
-figout = here('figures','outputs','figure_6_draft.ps')
+figout = here('figures','outputs','figure_6_draft.pdf')
 source(here('analysis','dist_basics.r'))
 source(here('analysis','functions','boxaxes.r'))
 source(here('analysis','functions','disch_conv.r'))
