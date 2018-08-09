@@ -1,6 +1,8 @@
-# Code and data for _"Temporally variable stream width and area distributions in a headwater catchment"_
+# Code and data for _"Temporally Variable Stream Width and Surface Area Distributions in a Headwater Catchment"_
 
-This repository contains code and data to replicate results from Code and data for **"Temporally variable stream width and area distributions in a headwater catchment"** by Barefoot et al. (_in prep_)
+[![DOI](https://zenodo.org/badge/141500164.svg)](https://zenodo.org/badge/latestdoi/141500164)
+
+This repository contains code and data to replicate results from Code and data for **"Temporally Variable Stream Width and Surface Area Distributions in a Headwater Catchment"** by Barefoot et al. (_submitted_)
 
 ## Install
 
@@ -16,6 +18,14 @@ make
 This command will replicate all the analysis presented in the paper, and open draft versions of the main figures.
 
 To delete all products of the analysis, simply enter `make clean` in the terminal, and all the draft figures will be deleted.
+
+## Data Availability
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1342865.svg)](https://doi.org/10.5281/zenodo.1342865)
+
+Data is also available as .zip files with the DOI listed above. Each zip file corresponds to one subdirectory of the `raw_data` directory (see file tree below).
+
+You do not need to additionally go fetch these data, as they are contained in this repository too. 
 
 ## File Structure
 
