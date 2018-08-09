@@ -5,7 +5,7 @@
 
 # produces a draft figure that is touched up in adobe illustrator
 
-figout = here('figures','outputs','figure_6_draft.pdf')
+figout = here('figures','outputs','figure_6_draft.ps')
 source(here('analysis','dist_basics.r'))
 source(here('analysis','functions','boxaxes.r'))
 source(here('analysis','functions','disch_conv.r'))
@@ -38,6 +38,8 @@ padd = function(x,y,xpad = 0.1, ypad = 0.1) {
 
 exc = c(1,3,4)
 
+exc_v = c(3,4)
+
 pdf(figout, width = 9, height = 6, useDingbats = F)
 
 par(pch = 19)
@@ -54,7 +56,7 @@ layout(mat, widths = c(1,1,1))
 
 # comparing discharge to mode width
 
-padds = padd(sQm[-exc],mo[-exc])
+padds = padd(sQm[-1], mo[-1])
 
 plot(sQm[-exc],mo[-exc], type = 'n', ann = F, axes = F, xlim = padds$xran, ylim = padds$yran)
 
@@ -75,7 +77,9 @@ points(sQm[-exc], mo[-exc], col = pal[-exc])
 #points(sQm, wbar, col = 'red3')
 #points(sQm, wiqr, col = 'blue3')
 
-points(sQm[c(n1,n2)], mo[c(n1,n2)], col = pal[c(n1,n2)], cex = 2, pch = 1)
+# points(sQm[c(n1,n2)], mo[c(n1,n2)], col = pal[c(n1,n2)], cex = 2, pch = 1)
+points(sQm[exc_v],mo[exc_v], pch = 1, col = pal[exc_v])
+
 
 boxaxes()
 title(xlab = 'Discharge (mm/hr)', ylab = 'Mode Width (cm)', line = 2.5, main = '(a)')
@@ -135,7 +139,7 @@ pale = rep('black', nrow(pairs))
 plot(ewq,qwe, type = 'n', ann = F, axes = F, col = pale, xlim = padds$xran, ylim = padds$yran)
 abline(a = 0, b = 1)
 points(ewq,qwe, pch = 19, cex = areas[pairs$one]/800, col = pale)
-points(ewq[p],qwe[p], pch = 1, cex = 2.5, col = pale)
+# points(ewq[p],qwe[p], pch = 1, cex = 2.5, col = pale)
 boxaxes()
 title(ylab = expression(Delta~A[lon]~(m^2)), xlab = expression(Delta~A[lat]~(m^2)), line = 2.5, main = '(c)')
 
@@ -183,7 +187,7 @@ exx = log10(sQm[-exc])
 why = log10(areas[-exc])
 pall = pal[-exc]
 
-padds = padd(exx, why)
+padds = padd(log10(sQm[-1]), log10(areas[-1]))
 
 plot(exx, why, type = 'n', ann = F, axes = F, xlim = padds$xran, ylim = padds$yran)
 
@@ -191,7 +195,8 @@ modd = lm(why~exx)
 
 lines(sort(exx),sort(modd$fitted.values))
 points(exx, why, col = pall,)
-points(exx[c(n1,n2)], why[c(n1,n2)], col = pall[c(n1,n2)], cex = 2, pch = 1)
+# points(exx[c(n1,n2)], why[c(n1,n2)], col = pall[c(n1,n2)], cex = 2, pch = 1)
+points(log10(sQm[exc_v]), log10(areas[exc_v]), col = pal[exc_v], pch = 1)
 box()
 
 	blah = c(0.01,0.02,0.03,0.04,0.05,0.06,0.07,0.08,0.09,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9,0,1,2,3,4,5,6,7,8,9,10,20,30,40,50,60,70,80,90,100,200,300,400,500,600,700,800,900,1000,2000,3000,4000,5000,6000,7000,8000,9000,10000)

@@ -57,8 +57,7 @@ If the installation is correct, you should see the following file structure:
 │   │   │   ├── stony_creek_field_data.csv
 │   │   │   └── stony_creek_strm_order.csv
 │   │   ├── gis_data
-│   │   │   ├── stony_segment_pts.dbf
-│   │   │   └── stony_segment_pts_test.xlsx
+│   │   │   └── stony_segment_pts.dbf
 │   │   └── hydro_data
 │   │       ├── bolin_2012_2017.csv
 │   │       ├── discharge_data.csv
