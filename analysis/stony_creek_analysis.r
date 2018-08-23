@@ -8,22 +8,14 @@
 #
 # OSX/Linux: "./analysis/stony_creek_analysis.r"
 
-########################################################
-# install and load  necessary libraries
+lib = file.path(getwd(), 'pkgs')
+.libPaths(c(lib, .libPaths()))
 
-packages = c('here', 'foreign', 'lubridate', 'dplyr', 'MASS')
+# message(.libPaths())
+# stop()
 
-ipak = function(pkg){
-  new_pkg = pkg[!(pkg %in% installed.packages()[, "Package"])]
-  if (length(new_pkg)) {
-    install.packages(new_pkg, dependencies = TRUE)
-  }
-}
-
-ipak(packages)
 
 library(here)
-
 ########################################################
 
 # Data In/Out

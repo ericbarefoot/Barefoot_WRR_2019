@@ -2,3 +2,5 @@
 stony_segment_pts_test.xlsx
 
 .DS_Store
+
+pkgs/*
