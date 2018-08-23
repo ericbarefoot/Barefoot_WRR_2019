@@ -8,8 +8,6 @@
 #
 # OSX/Linux: "./analysis/stony_creek_analysis.r"
 
-
-
 lib = file.path(getwd(), 'pkgs')
 .libPaths(c(lib, .libPaths()))
 

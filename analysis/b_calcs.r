@@ -36,10 +36,10 @@ for (i in 1:nrow(just_widths)) {
 	logwid = log10(wid_pt[!wz])
 	logQ = log10(sQm[!wz])
 	if (length(which(wz == F)) > 3) {
-		mod = lm(logwid~logQ)
+		mod = suppressWarnings(lm(logwid~logQ))
 		b[i] = mod$coefficients[2]
 		a[i] = mod$coefficients[1]
-		rsqr[i] = summary(mod)$adj.r.squared
+		rsqr[i] = suppressWarnings(summary(mod)$adj.r.squared)
 	} else {
 		b[i] = NA
 		rsqr[i] = NA

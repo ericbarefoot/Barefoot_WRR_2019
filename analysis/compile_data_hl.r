@@ -31,7 +31,7 @@ source(here::here('analysis', 'functions', 'disch_conv.r'))
 
 source(here::here('analysis', 'percentile_calc.r'))
 
-source(here::here('analysis', 'ks_stats.r'))
+suppressWarnings(source(here::here('analysis', 'ks_stats.r')))
 
 #	and some previous data
 
