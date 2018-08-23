@@ -24,6 +24,11 @@ ipak = function(pkg, lib){
   .libPaths(c(lib, .libPaths()))
 
   if (length(new_pkg)) {
+
+    message(paste('You need a few packages, installing... \nThis may take a few minutes depending on how many are missing, \nso you might want to go get coffee.'))
+
+    Sys.sleep(6)
+
     install.packages(new_pkg, dependencies = TRUE, lib = lib, repo = 'https://cloud.r-project.org/')
   }
 
