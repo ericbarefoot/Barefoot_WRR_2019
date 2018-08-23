@@ -1,4 +1,5 @@
 all:
+	time ./library_install.r
 	./analysis/stony_creek_analysis.r
 
 clean:
