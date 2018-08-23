@@ -1,9 +1,12 @@
 all:
-	time ./library_install.r
+	./library_install.r
 	./analysis/stony_creek_analysis.r
 
 clean:
-	rm data/derived_data/*
-	rm figures/outputs/*_draft*
+	rm -rf data/derived_data/*
+	rm -rf figures/outputs/*_draft*
 
-.PHONY: all clean
+empty_pkgs:
+	rm -rf pkgs/*
+
+.PHONY: all clean empty_pkgs

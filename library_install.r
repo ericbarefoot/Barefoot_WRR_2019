@@ -24,7 +24,7 @@ ipak = function(pkg, lib){
   .libPaths(c(lib, .libPaths()))
 
   if (length(new_pkg)) {
-    install.packages(new_pkg, dependencies = TRUE, lib = lib)
+    install.packages(new_pkg, dependencies = TRUE, lib = lib, repo = 'https://cloud.r-project.org/')
   }
 
 }
