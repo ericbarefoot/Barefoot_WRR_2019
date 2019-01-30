@@ -40,7 +40,7 @@ exc = c(1,3,4)
 
 exc_v = c(3,4)
 
-pdf(figout, width = 9, height = 6, useDingbats = F)
+# pdf(figout, width = 9, height = 6, useDingbats = F)
 
 par(pch = 19)
 
@@ -130,18 +130,28 @@ title(main = '(d)', ylab = 'Frequency', xlab = 'Width (cm)')
 ## PLOT 3 ##
 
 #showing the spread of effects, when widening is more important and when expansion is more important.
+# pdf(here('figures','outputs','figure_6_c_colornumbersMax.pdf'), width = 8, height = 8)
 
-padds = padd(ewq,qwe, 0.15, 0.15)
+source(here('analysis','effect_analysis.r'))
 
-pale = rep('black', nrow(pairs))
-#pale[p] = 'red3'
+# padds = padd(ewq, qwe, 0.15, 0.15)
+padds = padd(areaiop, ewq / qwe, 0.15, 0.15)
 
-plot(ewq,qwe, type = 'n', ann = F, axes = F, col = pale, xlim = padds$xran, ylim = padds$yran)
-abline(a = 0, b = 1)
-points(ewq,qwe, pch = 19, cex = areas[pairs$one]/800, col = pale)
+pale = rep('black', length(areaiop))
+
+plot(areaiop, ewq / qwe, type = 'n', ann = F, axes = F, xlim = padds$xran, ylim = padds$yran)
+# plot(ewq, qwe, type = 'n', ann = F, axes = F, col = pale, xlim = padds$xran, ylim = padds$yran)
+# abline(a = 0, b = 1)
+# points(ewq, qwe, pch = 19, cex = areaiop/800, col = pale)
+points(areaiop, ewq / qwe, pch = 19, col = pal[whichiop])
+# points(areaiop, ewq / qwe, pch = 19, col = pal[whichiop])
+# text(ewq, qwe, labels = as.character(whichiop), col = pal[whichiop])
 # points(ewq[p],qwe[p], pch = 1, cex = 2.5, col = pale)
 boxaxes()
-title(ylab = expression(Delta~A[lon]~(m^2)), xlab = expression(Delta~A[lat]~(m^2)), line = 2.5, main = '(c)')
+title(ylab = expression(frac(Delta~A[lon]~(m^2), Delta~A[lat]~(m^2))), xlab = expression(frac(Delta~A[T]~(m^2), A[max])), line = 2.5, main = '(c)')
+# title(ylab = expression(Delta~A[lon]~(m^2)), xlab = expression(Delta~A[lat]~(m^2)), line = 2.5, main = '(c)')
+
+# dev.off()
 
 # plot(widen_effect, expand_effect, type = 'n', ann = F, axes = F)
 # #abline(v = 0, h = 0, col = 'lightgrey')
@@ -211,7 +221,7 @@ for (i in 3:4) {
 
 title(ylab = expression(Total~Surface~Area~(m^2)), xlab = 'Discharge (mm/hr)', line = 2.5, main = '(b)')
 
-dev.off()
+# dev.off()
 
 
 

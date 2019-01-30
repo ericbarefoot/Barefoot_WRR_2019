@@ -71,11 +71,8 @@ which_effect = function(dat = tab$fdata, n1, n2) {
 	evf2zdelta = -sum(ev1[evf2z] * 0.01) * 5
 
 
-	return(list(	z2f = evz2fdelta, f2f = evf2fdelta, f2z = evf2zdelta,
-			   		ev1 = ev1, ev2 = ev2, ev1f = ev1f, ev2f = ev2f, ev1z = ev1z, ev2z = ev2z,
-					evf2z = evf2z, evz2f = evz2f, evf2f = evf2f
-			   ))
-
+	return(list(z2f = evz2fdelta, f2f = evf2fdelta, f2z = evf2zdelta, ev1 = ev1,
+		ev2 = ev2, ev1f = ev1f, ev2f = ev2f, ev1z = ev1z, ev2z = ev2z, evf2z = evf2z, evz2f = evz2f, evf2f = evf2f))
 }
 
 
@@ -206,7 +203,11 @@ js = jMat[upper.tri(jMat)]
 ## full to zero
 #hf2z = hist(jkl$ev1[jkl$evf2z], plot = F, breaks = brks)
 
-pairs = data.frame(one = c(5,8,9,10,2,3,6,9,6), two = c(4,7,10,11,3,4,5,8,7))
+# pairs = data.frame(one = c(5,8,9,10,2,3,6,9,6), two = c(4,7,10,11,3,4,5,8,7))
+
+survs2use = c(2,4,5,6,7,8,9,10,11,12,13)
+
+combos = t(combn(survs2use, 2))
 
 poi = c()
 qwe = c()
@@ -217,17 +218,30 @@ mon = c()
 mtw = c()
 fwi = c()
 
-for (p in 1:nrow(pairs)) {
-	iop = which_effect(tab$fdata, pairs$one[p], pairs$two[p])
+areaiop  = c()
+whichiop = c()
+survs = list(p = c(), q = c())
+
+for (j in 1:length(combos[,1])) {
+	lower = which.min(c(areas[combos[j,1]], areas[combos[j,2]]))
+	higher = which.max(c(areas[combos[j,1]], areas[combos[j,2]]))
+	p = combos[j,lower]
+	q = combos[j,higher]
+	iop = which_effect(tab$fdata, p, q)
 	rew = spline_curves(iop)
-	qwe[p] = iop$z2f
-	ewq[p] = iop$f2f
-	mon[p] = rew$sev1$x[which.max(rew$sev1$y)]
-	mtw[p] = rew$sev2$x[which.max(rew$sev2$y)]
-	mex[p] = rew$sz2f$x[which.max(rew$sz2f$y)]
-	mwi[p] = rew$sf2f$x[which.max(rew$sf2f$y)]
+	qwe[j] = iop$z2f
+	ewq[j] = iop$f2f
+	mon[j] = rew$sev1$x[which.max(rew$sev1$y)]
+	mtw[j] = rew$sev2$x[which.max(rew$sev2$y)]
+	mex[j] = rew$sz2f$x[which.max(rew$sz2f$y)]
+	mwi[j] = rew$sf2f$x[which.max(rew$sf2f$y)]
 	# fwi[p] = rew$sf2f$y[which.max(rew$sf2f$y)]
-	poi[p] = qwe[p] / ewq[p]
+	poi[j] = qwe[j] / ewq[j]
+	# areaiop[j] = min(areas[p], areas[q])
+	areaiop[j] = (areas[q] - areas[p])/mean(areas[q])
+	whichiop[j] = which(areas %in% areas[q])
+	survs$p[j] = p
+	survs$q[j] = q
 	# lines(rew$sev1, col = pal[pairs$one[p]], lwd = 2)
 	# lines(rew$sev2, col = pal[pairs$two[p]], lwd = 2)
 	# lines(rew$sf2f, col = 'grey65', lwd = 2)
