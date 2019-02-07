@@ -4,6 +4,10 @@
 
 # note from later: appears that this script doesn't actually stand alone. must have to call it in interactive mode during something else.
 
+source(here('analysis', 'dist_basics.r'))
+
+load(here('data', 'derived_data','high_low_table.rda'))
+
 colz = grep('w', names(tab$fdata))
 coln = names(tab$fdata[colz])
 
@@ -205,7 +209,7 @@ js = jMat[upper.tri(jMat)]
 
 # pairs = data.frame(one = c(5,8,9,10,2,3,6,9,6), two = c(4,7,10,11,3,4,5,8,7))
 
-survs2use = c(2,4,5,6,7,8,9,10,11,12,13)
+survs2use = 1:13
 
 combos = t(combn(survs2use, 2))
 
@@ -217,6 +221,9 @@ mwi = c()
 mon = c()
 mtw = c()
 fwi = c()
+mnb = c()
+areaT = c()
+deltaQ = c()
 
 areaiop  = c()
 whichiop = c()
@@ -231,6 +238,7 @@ for (j in 1:length(combos[,1])) {
 	rew = spline_curves(iop)
 	qwe[j] = iop$z2f
 	ewq[j] = iop$f2f
+	mnb[j] = iop$f2z
 	mon[j] = rew$sev1$x[which.max(rew$sev1$y)]
 	mtw[j] = rew$sev2$x[which.max(rew$sev2$y)]
 	mex[j] = rew$sz2f$x[which.max(rew$sz2f$y)]
@@ -238,6 +246,8 @@ for (j in 1:length(combos[,1])) {
 	# fwi[p] = rew$sf2f$y[which.max(rew$sf2f$y)]
 	poi[j] = qwe[j] / ewq[j]
 	# areaiop[j] = min(areas[p], areas[q])
+	areaT[j] = (areas[q] - areas[p])
+	deltaQ[j] = (hltab$Q[q] - hltab$Q[p])
 	areaiop[j] = (areas[q] - areas[p])/mean(areas[q])
 	whichiop[j] = which(areas %in% areas[q])
 	survs$p[j] = p
@@ -247,6 +257,10 @@ for (j in 1:length(combos[,1])) {
 	# lines(rew$sf2f, col = 'grey65', lwd = 2)
 	# lines(rew$sz2f, col = 'grey35', lwd = 2)
 }
+
+diffData = tibble(combo = paste0(survs$p-1, '/', survs$q-1), z2f = qwe, f2f = ewq, f2z = mnb) %>% mutate(areaT = z2f + f2f + f2z) %>% bind_cols(runoffDelta = deltaQ)
+
+save(diffData, file = here('data', 'derived_data', 'area_differences.rda'))
 
 # points(mwi, fwi, pch = 20)
 
