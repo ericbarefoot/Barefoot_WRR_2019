@@ -62,7 +62,7 @@ ggplot() + geom_step(data = widthDiffs_ID, stat = 'density', bw = 10, aes(x = wi
 
 widths = fieldData %>% select(flag_id, contains('w')) %>% gather(key = 'event_id', value = 'width', -flag_id) %>% mutate(event_id = as.factor(event_id))
 
-hltab = as_tibble(hltab) %>% rename(event_id = names)
+# hltab = as_tibble(hltab) %>% rename(event_id = 'names')
 
 dat = widths %>% inner_join(., hltab, by = 'event_id') %>%
 rename(R = Q) %>%
@@ -81,10 +81,9 @@ naivelm = lm(width ~ R, data = dat)
 ggplot(dat) + aes(x = R, y = width) + geom_point() + geom_smooth(method = 'lm')
 
 goop_intercept = glmmPQL(width ~ R, ~ 1 | flag_id, data = dat, family = gaussian(link = 'log'), verbose = T)
+goop_intercept = glmmPQL(width ~ I(log10(R)), ~ 1 | flag_id, data = dat, family = gaussian(link = 'log'), verbose = T)
 
 goop_slope = glmmPQL(width ~ R, ~ 1 + R | flag_id, data = dat, family = gaussian(link = 'log'), verbose = T)
-
-
 
 #######################################################
 
