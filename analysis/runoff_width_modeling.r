@@ -121,10 +121,40 @@ geom_smooth(aes(x = runoff, y = area), color = 'red', method = 'lm')
 # here's how we do it. the mu value for log-transformed width data is defining
 # parameter allowing us to do the mode and
 
+logTransformNoZero = allDataNoZero %>% mutate(logWidth = log(width)) %>% select(flag_id:width, logWidth, runoff:z)
+
 allPlot +
+geom_line(aes(x = runoff, y = width, group = flag_id), color = 'darkgrey', alpha = 0.3, data = filter(allDataNoZero, flag_id %in% base::sample(levels(allData$flag_id), 50))) +
 geom_jitter(aes(x = runoff, y = width, color = survey), shape = 20, width = 0.005, alpha = 0.2) +
-geom_smooth(aes(x = runoff, y = width), method = 'lm') +
 scale_color_manual(values = pal) + scale_y_continuous(trans = 'log', breaks = base_breaks(), labels = prettyNum)
+
+# linear mixed models with increasing levels of complexity
+
+# one null model with no random effects or fixed effects
+
+nullModel = lm(logWidth ~ 1, data = logTransformNoZero)
+
+# one null model with no random effects and only fixed effects
+
+fixedModel = lm(logWidth ~ runoff, data = logTransformNoZero)
+
+# one null model with random effects on intercept and NO fixed effects
+
+randomIntModel = lmer(logWidth ~ (1 | flag_id), data = logTransformNoZero, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
+
+# one null model with random effects on slope and intercept with NO fixed effects
+
+randomIntSlopeModel = lmer(logWidth ~ (1 + runoff | flag_id), data = logTransformNoZero, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
+
+# one model with fixed effects and random effects on intercept
+
+fixedRandomIntModel = lmer(logWidth ~ runoff + (1 | flag_id), data = logTransformNoZero, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
+
+#  one model with fixed effects and random effects on intercept and slope.
+
+fixedRandomIntSlopeModel = lmer(logWidth ~ runoff + (1 + runoff | flag_id), data = logTransformNoZero, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
+
+anova(randomIntSlopeModel, fixedRandomIntSlopeModel)
 
 
 # but how to model the distribution parameters instead of just the mean??
