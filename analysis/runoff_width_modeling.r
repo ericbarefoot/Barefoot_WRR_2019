@@ -107,9 +107,10 @@ pal = c('black','red3','cadetblue4','chartreuse4','royalblue4','orchid4','palevi
 
 shapes = c(1,19,1,1,19,19,19,19,19,19,19,19,19)
 
-surveyData %>% ggplot() +
-geom_point(aes(x = length, y = mean, color = survey), shape = shapes, size = 3) +
-scale_color_manual(values = pal)
+surveyData %>% filter(survey != '00') %>% ggplot() +
+geom_point(aes(x = runoff, y = area, color = survey), shape = shapes[-1], size = 3) +
+scale_color_manual(values = pal[-1]) + scale_x_continuous(trans = 'log10') +
+geom_smooth(aes(x = runoff, y = area), color = 'red', method = 'lm')
 
 ## Goal 1
 ##############################################
@@ -150,6 +151,11 @@ diffDataTwo = diffData %>% mutate(lateral = f2f, longitudinal = f2z + z2f)
 diffDataTwo %>% ggplot() + geom_point(aes(x = runoffDelta, y = (lateral/areaT), color = areaT))
 
 diffDataThree = diffDataTwo %>% select(combo, areaT:longitudinal) %>% gather(key = 'mode', value = 'areaDelta', -c(combo, areaT, runoffDelta))
+
+diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta, y = ..density.., color = mode), geom = 'line', bw = 100)
+diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta + 150, y = ..density.., color = mode), geom = 'line') + scale_x_continuous(trans = 'log', breaks = base_breaks(), labels = prettyNum)
+
+diffDataThree %>% ggplot() + stat_density(aes(x = runoffDelta, y = ..density.., color = mode), geom = 'line', bw = 0.08)
 
 diffDataThree %>% ggplot() + geom_point(aes(x = runoffDelta, y = areaDelta, color = mode))
 # diffDataThree %>% ggplot() + geom_point(aes(x = runoffDelta, y = areaDelta / areaT, color = mode)) + geom_hline(yintercept = 0.5)
