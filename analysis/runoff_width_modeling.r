@@ -156,8 +156,57 @@ fixedRandomIntSlopeModel = lmer(logWidth ~ runoff + (1 + runoff | flag_id), data
 
 anova(randomIntSlopeModel, fixedRandomIntSlopeModel)
 
+# add predictions to model.
 
-# but how to model the distribution parameters instead of just the mean??
+dataPredictions = logTransformNoZero %>% bind_cols(null = predict(nullModel), fixed = predict(fixedModel), randomInt = predict(randomIntModel), randomIntSlope = predict(randomIntSlopeModel), fixedRandomInt= predict(fixedRandomIntModel), fixedRandomIntSlope = predict(fixedRandomIntSlopeModel))
+
+longDataPredictions = dataPredictions %>% gather(key = 'model', value = 'prediction', -(flag_id:z)) %>% mutate(model = as.factor(model))
+
+longDataPredictions %>% filter(model == 'fixedRandomIntSlope') %>%
+ggplot() +
+geom_jitter(aes(x = runoff, y = logWidth, color = survey), width = 0.01, alpha = 0.4) +
+geom_jitter(aes(x = runoff, y = prediction), width = 0.01, height = 0.2,  alpha = 0.2)
+
+flags = unique(allData$flag_id)
+runoffs = seq(from = 0.01, to = 1, by = 0.01)
+
+predictionData = tibble(flag_id = rep(flags, times = length(runoffs)), runoff = rep(runoffs, each = length(flags)))
+
+start_time = Sys.time()
+nullPredictions = predict(nullModel, newdata = predictionData, se.fit = TRUE, interval = 'prediction', level = 0.8)$fit
+fixedPredictions = predict(fixedModel, newdata = predictionData, se.fit = TRUE, interval = 'prediction', level = 0.8)$fit
+randomIntPredictions = predictInterval(randomIntModel, newdata = predictionData)
+randomIntSlopePredictions = predictInterval(randomIntSlopeModel, newdata = predictionData)
+fixedRandomIntPredictions = predictInterval(fixedRandomIntModel, newdata = predictionData)
+fixedRandomIntSlopePredictions = predictInterval(fixedRandomIntSlopeModel, newdata = predictionData)
+end_time = Sys.time()
+time_diff = end_time - start_time
+
+nullIntervals = bind_cols(predictionData, as_tibble(nullPredictions))
+fixedIntervals = bind_cols(predictionData, as_tibble(fixedPredictions))
+randomIntIntervals = bind_cols(predictionData, as_tibble(randomIntPredictions))
+randomIntSlopeIntervals = bind_cols(predictionData, as_tibble(randomIntSlopePredictions))
+fixedRandomIntIntervals = bind_cols(predictionData, as_tibble(fixedRandomIntPredictions))
+fixedRandomIntSlopeIntervals = bind_cols(predictionData, as_tibble(fixedRandomIntSlopePredictions))
+
+model_recode <- c('1' = 'null', '2' = 'fixed', '3' = 'rI', '4' = 'rIS', '5' = 'frI', '6' = 'frIS')
+
+models = c('null','fixed','rI','rIS','frI','frIS')
+
+predictionIntervals = bind_rows(nullIntervals, fixedIntervals, randomIntIntervals, randomIntSlopeIntervals, fixedRandomIntIntervals, fixedRandomIntSlopeIntervals, .id = 'model')
+
+model_vec = recode(predictionIntervals$model, !!!model_recode)
+
+predictionIntervals = predictionIntervals %>% mutate(model = as.factor(model_vec)) %>% group_by(model, runoff) %>% summarize(fit = mean(fit), lwr = mean(lwr), upr = mean(upr))
+
+oneModelToPlot = predictionIntervals %>% filter(model %in% c('frIS'))
+
+modelFitPlot = ggplot() +
+geom_jitter(aes(x = runoff, y = logWidth), width = 0.01, data = logTransformNoZero, alpha = 0.7) +
+geom_ribbon(data = oneModelToPlot, aes(x = runoff, ymin = lwr, ymax = upr, fill = model), alpha = 0.2)  +
+geom_line(data = oneModelToPlot, aes(x = runoff, y = fit, color = model))
+
+modelFitPlot
 
 ## Goal 2
 ##############################################
