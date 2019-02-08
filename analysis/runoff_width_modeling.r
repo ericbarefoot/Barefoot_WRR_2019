@@ -126,11 +126,6 @@ geom_jitter(aes(x = runoff, y = width, color = survey), shape = 20, width = 0.00
 geom_smooth(aes(x = runoff, y = width), method = 'lm') +
 scale_color_manual(values = pal) + scale_y_continuous(trans = 'log', breaks = base_breaks(), labels = prettyNum)
 
-# model_glmm_intercept = glmmPQL(width ~ runoff, ~ 1 | flag_id, data = allDataNoZero, family = gaussian(link = 'log'), verbose = T)
-#
-# model_glmm_logWidth_intercept = glmmPQL(I(log10(width)) ~ runoff, ~ 1 | flag_id, data = allDataNoZero, family = gaussian(link = 'log'), verbose = T)
-#
-# model_glmm_slope = glmmPQL(width ~ runoff, ~ 1 + runoff | flag_id, data = allDataNoZero, family = gaussian(link = 'log'), verbose = T)
 
 # but how to model the distribution parameters instead of just the mean??
 
