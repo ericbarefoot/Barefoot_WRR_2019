@@ -1,4 +1,4 @@
-#
+#!/usr/bin/Rscript
 
 ## re-analysis using glmm for interpreting role of runoff on stream width.
 ## Eric Barefoot
@@ -11,10 +11,11 @@
 # import packages
 
 library(MASS)
+library(lme4)
 library(here)
+library(merTools)
 library(tidyverse)
 library(colorout)
-library(lme4)
 
 # read in data
 
@@ -84,8 +85,8 @@ allDataNoZero = allData %>% filter(width != 0)
 
 ## summarize and simple visualizations to show structures of the data
 
-print(str(allData))
-print(str(surveyData))
+str(allData)
+str(surveyData)
 
 # plot as distribution of widths
 
