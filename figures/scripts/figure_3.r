@@ -124,6 +124,8 @@ for (m in 2:length(colz)){
 	}
 
 	plot(x, y, type = 'n', asp = 1, axes = F, ann = F)
+	# lines(x, y, col='grey25', lwd = 1, lty = 3)
+	# lines(x, y, col='grey80', lwd = 1)
 	lines(lx, ly, col='darkblue', lwd = 2)
 	text(x = 673148.8, y = 3989969, labels = paste(m-1), col = pal[m], cex = 4)
 

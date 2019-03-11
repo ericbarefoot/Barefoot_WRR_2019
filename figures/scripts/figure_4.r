@@ -192,12 +192,14 @@ for (m in 2:length(colz)){
 	Y = list(x = c(673207, 673343), y = c(3989601, 3989719))
 
 	plot(x, y, type = 'n', xlim=sort(Y$x), ylim = sort(Y$y), asp = 1, lwd = 0.1, col = 1, axes = F, ann = F)
+	# lines(x, y, col='grey25', lwd = 1, lty = 3)
+	# lines(x, y, col='grey80', lwd = 1)
 	polygon(ox, oy, col='darkblue', lwd = 0.1, border = NA)
 	text(x = 673280, y = 3989700, labels = paste(m-1), col = pal[m], cex = 4)
 
     text(x = 673339, y = 3989700, labels = paste(round(mQs[m], digits = 2), ' mm/hr'), col = pal[m], cex = 2.8)
 
-	if (m == 13) {text(pts, labels = c('S07A','S14A'), cex = 2.5, col = 'grey50')}
+	if (m == 13) {text(pts, labels = c('S07A','S13A'), cex = 2.5, col = 'grey50')}
 
 	if (m == 13) {
 		segments(673343, 3989670, 673343, 3989720, lwd = 2)
