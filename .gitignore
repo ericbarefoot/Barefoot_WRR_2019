@@ -4,3 +4,8 @@ stony_segment_pts_test.xlsx
 .DS_Store
 
 pkgs/*
+
+/figures/outputs/old_versions
+/figures/scripts/old_scripts
+
+console_prints.txt
