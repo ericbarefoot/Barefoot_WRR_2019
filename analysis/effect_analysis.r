@@ -229,9 +229,11 @@ areaiop  = c()
 whichiop = c()
 survs = list(p = c(), q = c())
 
+combos = pairs
+
 for (j in 1:length(combos[,1])) {
-	lower = which.min(c(areas[combos[j,1]], areas[combos[j,2]]))
-	higher = which.max(c(areas[combos[j,1]], areas[combos[j,2]]))
+	lower = which.min(c(hltab$Q[combos[j,1]], hltab$Q[combos[j,2]]))
+	higher = which.max(c(hltab$Q[combos[j,1]], hltab$Q[combos[j,2]]))
 	p = combos[j,lower]
 	q = combos[j,higher]
 	iop = which_effect(tab$fdata, p, q)
@@ -261,6 +263,58 @@ for (j in 1:length(combos[,1])) {
 diffData = tibble(combo = paste0(survs$p-1, '/', survs$q-1), z2f = qwe, f2f = ewq, f2z = mnb) %>% mutate(areaT = z2f + f2f + f2z) %>% bind_cols(runoffDelta = deltaQ)
 
 save(diffData, file = here('data', 'derived_data', 'area_differences.rda'))
+
+latlongexp = list()
+
+survs = order(hltab$Q)
+survs = survs[-which(survs %in% c(1,3,4))]
+pairs = cbind(survs[-length(survs)], survs[-1])
+
+for (j in 1:length(pairs[,1])) {
+	lower = which.min(c(hltab$Q[pairs[j,1]], hltab$Q[pairs[j,2]]))
+	higher = which.max(c(hltab$Q[pairs[j,1]], hltab$Q[pairs[j,2]]))
+	p = pairs[j,lower]
+	q = pairs[j,higher]
+	iop = which_effect(tab$fdata, p, q)
+	longitudinalEx = iop$ev2[iop$evz2f]
+	lateralEx = iop$ev2[iop$evf2f]
+	widths = c(longitudinalEx, lateralEx)
+	label = c(rep('longitudinal', length(longitudinalEx)), rep('lateral', length(lateralEx)))
+	latlongcombo = rep(paste0(p-1, '/', q-1), length(widths))
+	deltaQ = rep(hltab$Q[q] - hltab$Q[p], length(widths))
+	latlongexp[[j]] = tibble(combo = latlongcombo, label, width = widths, deltaQ = deltaQ)
+}
+
+diffDataPoints = bind_rows(latlongexp)
+
+save(diffDataPoints, file = here('data', 'derived_data', 'effect_differences.rda'))
+
+forbiddenCombos = c('0/1','1/0','0/2','0/3','0/4','0/5','0/6','0/7','0/8','0/9','0/10','0/11','0/12','/2','/3','3/', '2/9','2/10','2/6')
+permittedCombos =
+ c('12/6','12/10','12/9')
+
+diffDataPoints %>%
+# filter(!(grepl(paste(forbiddenCombos, collapse = '|'), combo)) | grepl(paste(permittedCombos, collapse = '|'), combo)) %>%
+mutate(logWidth = log(width)) %>%
+group_by(combo, label) %>%
+summarize(mu = mean(logWidth), delQ = mean(deltaQ))  %>% ggplot() +
+geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
+geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
+
+modelMu = diffDataPoints %>%
+mutate(logWidth = log(width), combo = as.factor(combo)) %>%
+group_by(combo, label) %>%
+summarize(mu = mean(logWidth), delQ = mean(deltaQ))
+
+modelMu = diffDataThree %>% select(combo, areaT, areaDelta, label = 'mode') %>% inner_join(modelMu,., by = c('combo', 'label')) %>% mutate(fraction = areaDelta / areaT)
+
+modelMu %>% filter(label == 'lateral') %>% ggplot() +
+geom_point(aes(x = delQ, y = fraction, color = label)) + theme_minimal() +
+geom_smooth(aes(x = delQ, y = fraction, color = label), method = 'lm', se = F)
+
+modelMu %>% ggplot() +
+geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
+geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
 
 # points(mwi, fwi, pch = 20)
 
