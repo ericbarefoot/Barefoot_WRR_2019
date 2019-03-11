@@ -22,7 +22,7 @@ dates = parse_date_time(bolin$datetime, 'mdy')
 
 ss = which(dates %in% survs)
 
-qq = bolin$X86325_00060_00002
+qq = bolin$X86324_00060_00001
 
 MQS = qq[c(ss,tail(ss,1))]
 
