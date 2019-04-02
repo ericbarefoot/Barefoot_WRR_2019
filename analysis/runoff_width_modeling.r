@@ -167,7 +167,7 @@ fixedRandomIntSlopeModel = lmer(logWidth ~ I(log(runoff)) + (1 + I(log(runoff)) 
 
 # one model with the log of each for power law fit.
 
-# powerMixedModel = lmer(logWidth ~ I(log(runoff)) + (1 + I(log(runoff)) | flag_id), data = dataToModel, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
+powerMixedModel = lmer(logWidth ~ I(log(runoff)) + (1 + I(log(runoff)) | flag_id), data = dataToModel, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
 
 # RunoffDistancerISModel = lmer(logWidth ~ runoff + I(distance_upstream / max(distance_upstream)) + (1 + runoff | flag_id), data = logTransformNoZero, REML = FALSE, control = lmerControl(optimizer = 'Nelder_Mead'))
 #
