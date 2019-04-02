@@ -286,25 +286,21 @@ scale_shape_manual(values = shapes)
 
 diffDataTwo = diffData %>% mutate(lateral = f2f, longitudinal = f2z + z2f)
 
-diffDataTwo %>% ggplot() + geom_point(aes(x = runoffDelta, y = (lateral/areaT), color = areaT))
+# diffDataTwo %>% ggplot() + geom_point(aes(x = runoffDelta, y = (lateral/areaT), color = areaT))
 
 diffDataThree = diffDataTwo %>% select(combo, areaT:longitudinal) %>% gather(key = 'mode', value = 'areaDelta', -c(combo, areaT, runoffDelta)) %>% filter(!grepl('0', combo)) %>%
 mutate(fraction = areaDelta / areaT)
 
-diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta + 150, y = ..density.., color = mode), geom = 'line', bw = 100, position = 'identity')
+# diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta + 150, y = ..density.., color = mode), geom = 'line', bw = 100, position = 'identity')
 
-diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta + 150, y = ..density.., color = mode), geom = 'line', position = 'identity') + scale_x_continuous(trans = 'log', breaks = base_breaks(), labels = prettyNum)
+# diffDataThree %>% ggplot() + stat_density(aes(x = areaDelta + 150, y = ..density.., color = mode), geom = 'line', position = 'identity') + scale_x_continuous(trans = 'log', breaks = base_breaks(), labels = prettyNum)
 
-diffDataThree %>% ggplot() + stat_density(aes(x = areaT, y = ..density..), geom = 'line', position = 'identity')
-diffDataThree %>% ggplot() + stat_density(aes(x = runoffDelta, y = ..density..), geom = 'line', position = 'identity')
+# diffDataThree %>% ggplot() + stat_density(aes(x = areaT, y = ..density..), geom = 'line', position = 'identity')
+# diffDataThree %>% ggplot() + stat_density(aes(x = runoffDelta, y = ..density..), geom = 'line', position = 'identity')
 
-diffDataThree %>% ggplot() + geom_point(aes(x = runoffDelta, y = areaDelta, color = mode)) + geom_smooth(aes(x = runoffDelta, y = areaDelta, color = mode), method = 'lm', formula = y ~ x)
+marginal_Q_areachange = diffDataThree %>% ggplot() + geom_point(aes(x = runoffDelta, y = areaDelta, color = mode)) + geom_smooth(aes(x = runoffDelta, y = areaDelta, color = mode), method = 'lm', formula = y ~ x)
 
-diffDataThree %>% ggplot() +
-geom_hline(yintercept = 0.5) +
-geom_point(aes(x = runoffDelta, y = areaDelta / areaT, color = mode))
-
-diffDataThree %>% ggplot() +
+marginal_area_latlong = diffDataThree %>% ggplot() +
 geom_hline(yintercept = 0.5) +
 geom_point(aes(x = runoffDelta, y = areaDelta / areaT, color = mode))
 
