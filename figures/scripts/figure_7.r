@@ -133,7 +133,7 @@ scale_color_manual(labels = difflabels, guide = guide_legend(title = ''), values
 # scale_fill_hue(labels = difflabels, guide = guide_legend(title = '')) +
 theme_minimal() +
 theme(legend.position = c(0.7, 0.8)) +
-labs(x = 'Width Differences (cm)', y = '')
+labs(x = 'Difference in Width (cm)', y = '')
 
 ggsave(plot = partTwo, filename = 'figure_7_part_2.pdf', path = here('figures','outputs'), width = 4, height = 3, units = 'in')
 
@@ -147,7 +147,7 @@ scale_color_manual(labels = difflabels, guide = FALSE, values = diffPallet) +
 scale_fill_manual(labels = difflabels, guide = FALSE, values = diffPallet) +
 theme_minimal() +
 theme(legend.position = 'bottom') +
-labs(x = 'Width (cm)', y = 'Frequency') +
+labs(x = 'Difference in Width (cm)', y = 'Frequency') +
 facet_wrap(.~distribution, labeller = labeller(distribution = diffFacets))
 
 ggsave(plot = partThree, filename = 'figure_7_part_3.pdf', path = here('figures','outputs'), width = 8, height = 3, units = 'in')
@@ -155,4 +155,4 @@ ggsave(plot = partThree, filename = 'figure_7_part_3.pdf', path = here('figures'
 combined = grid.arrange(grobs = list(partOne, partTwo, partThree), widths = c(1,1),
 layout_matrix = rbind(c(1,2), c(3,3)))
 
-ggsave(plot = combined, filename = 'figure_7_draft.pdf', path = here('figures','outputs'), width = 8, height = 6, units = 'in', device = cairo_pdf)
+ggsave(plot = combined, filename = 'figure_7_draft.pdf', path = here('figures','outputs'), width = 8, height = 6, units = 'in')
