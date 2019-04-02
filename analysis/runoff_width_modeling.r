@@ -51,7 +51,7 @@ diffData = as_tibble(diffData) %>% mutate(combo = as.factor(combo))
 
 # remove unneeded variables, change some names
 
-fieldData = fieldData %>% select(-notes) %>% rename(channel_order = 'order_chan')
+fieldData = fieldData %>% dplyr::select(-notes) %>% rename(channel_order = 'order_chan')
 eventData = eventData %>%
 select(-c(lgmod, kdmod, modes, muuus, siggs, inter, peaks, kdmod, lgmod, kdpek, lgpek, kstat, kspvl, hltag, seeps)) %>%
 rename(survey = 'names') %>%
