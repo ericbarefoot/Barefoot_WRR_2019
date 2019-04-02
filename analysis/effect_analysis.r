@@ -229,7 +229,7 @@ areaiop  = c()
 whichiop = c()
 survs = list(p = c(), q = c())
 
-combos = pairs
+# combos = pairs
 
 for (j in 1:length(combos[,1])) {
 	lower = which.min(c(hltab$Q[combos[j,1]], hltab$Q[combos[j,2]]))
@@ -293,13 +293,13 @@ forbiddenCombos = c('0/1','1/0','0/2','0/3','0/4','0/5','0/6','0/7','0/8','0/9',
 permittedCombos =
  c('12/6','12/10','12/9')
 
-diffDataPoints %>%
-# filter(!(grepl(paste(forbiddenCombos, collapse = '|'), combo)) | grepl(paste(permittedCombos, collapse = '|'), combo)) %>%
-mutate(logWidth = log(width)) %>%
-group_by(combo, label) %>%
-summarize(mu = mean(logWidth), delQ = mean(deltaQ))  %>% ggplot() +
-geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
-geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
+# diffDataPoints %>%
+# # filter(!(grepl(paste(forbiddenCombos, collapse = '|'), combo)) | grepl(paste(permittedCombos, collapse = '|'), combo)) %>%
+# mutate(logWidth = log(width)) %>%
+# group_by(combo, label) %>%
+# summarize(mu = mean(logWidth), delQ = mean(deltaQ))  %>% ggplot() +
+# geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
+# geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
 
 modelMu = diffDataPoints %>%
 mutate(logWidth = log(width), combo = as.factor(combo)) %>%
@@ -308,13 +308,13 @@ summarize(mu = mean(logWidth), delQ = mean(deltaQ))
 
 modelMu = diffDataThree %>% select(combo, areaT, areaDelta, label = 'mode') %>% inner_join(modelMu,., by = c('combo', 'label')) %>% mutate(fraction = areaDelta / areaT)
 
-modelMu %>% filter(label == 'lateral') %>% ggplot() +
-geom_point(aes(x = delQ, y = fraction, color = label)) + theme_minimal() +
-geom_smooth(aes(x = delQ, y = fraction, color = label), method = 'lm', se = F)
-
-modelMu %>% ggplot() +
-geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
-geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
+# modelMu %>% filter(label == 'lateral') %>% ggplot() +
+# geom_point(aes(x = delQ, y = fraction, color = label)) + theme_minimal() +
+# geom_smooth(aes(x = delQ, y = fraction, color = label), method = 'lm', se = F)
+#
+# modelMu %>% ggplot() +
+# geom_point(aes(x = delQ, y = mu, color = label)) + theme_minimal() +
+# geom_smooth(aes(x = delQ, y = mu, color = label), method = 'lm', se = F)
 
 # points(mwi, fwi, pch = 20)
 
