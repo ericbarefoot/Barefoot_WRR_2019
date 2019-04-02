@@ -84,7 +84,7 @@ allData_one = inner_join(fieldData_long, eventData, by = 'survey')
 allData_two = allData_one %>% mutate(survey = as.factor(survey)) %>%
 rename(runoff = 'Q', distance_upstream = 'upstream_dist', x = 'easting', y = 'northing', z = 'elevation', flow_percentile = 'percs', area = 'areas', length = 'lengs', percent_flowing = 'ratio', drainage_density = 'drain', nonzero_obs = 'numbs', aspect_ratio = 'aspec', mean = 'means')
 
-allData = allData_two %>% select(flag_id:width, runoff:length, mean, percent_flowing, aspect_ratio, date, nonzero_obs, stream_order, channel_order, distance_upstream, slope, x:z)
+allData = allData_two %>% select(flag_id:width, runoff:length, mean, percent_flowing, aspect_ratio, date, nonzero_obs, stream_order, distance_upstream, slope, x:z)
 
 surveyData = eventData %>% mutate(survey = as.factor(survey)) %>%
 rename(runoff = 'Q', flow_percentile = 'percs', area = 'areas', length = 'lengs', mean = 'means', percent_flowing = 'ratio', drainage_density = 'drain', nonzero_obs = 'numbs', aspect_ratio = 'aspec')
