@@ -10,7 +10,7 @@ source(here('analysis', 'functions', 'disch_conv.r'))
 
 figout = here('figures', 'outputs', 'figure_5_draft.pdf')
 
-pdf(file = figout, width = 14, height = 10, useDingbats = F)
+pdf(file = figout, width = 10, height = 7, useDingbats = F)
 
 #	allnozero and md comes from the dist_basics file
 
@@ -32,7 +32,7 @@ for(i in 2:length(widths)) {
 }
 axis(1);axis(2)
 abline(h = 0)
-title(main ='', xlab = 'Width (cm)', ylab = 'Frequency')
+title(main ='', xlab = 'Active Stream Width (cm)', ylab = 'Frequency')
 
 # inset of hydrograph in upper right corner
 
@@ -61,12 +61,12 @@ Qlo = log10(disch_conv(q = tab$event_means$low_survey_Q[jj], area = 48.4))
 arrows(Qtime, Qhi, Qtime, Qlo, angle = 90, code = 3, col = pal[jj], length = 0, lwd = 3)
 points(Qtime, QQ, pch = 19, cex = 1, col = pal[jj])
 poss = c(4,1,2,2,4,1,1,1,1,2,4,3,4)
-text(Qtime, QQ, labels = jj, pos = poss, col = pal[jj], cex = 1.5)
+text(Qtime, QQ, labels = jj, pos = poss, col = pal[jj], cex = 1)
 
 axis(1, lwd = 0, lwd.ticks = 1, at = hydro_ticks_pos, labels = c('Nov','Dec','Jan','Feb','Mar'))
 
 axis(4,lwd = 0, lwd.ticks = 1, at = c(-2,-1,0,1,2,3), labels = as.character(c(0.01,0.1,1,10,100,1000)))
-mtext('Discharge (mm/hr)', 4, 3)
+mtext('Runoff (mm/hr)', 4, 3)
 usrcoord = par('usr')
 exmin = usrcoord[1]
 exmax = usrcoord[2]
